@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" class="light-style layout-wide customizer-hide" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <title>PayMed Global</title>
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="assets/vendor/css/theme-default.css" class="template-customizer-theme-css"/>
+    <link rel="stylesheet" href="assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"/>
+    <link rel="stylesheet" href="assets/vendor/css/pages/page-auth.css" />
+
+    <!-- Helpers -->
+    <script src="assets/vendor/js/helpers.js"></script>
+    <script src="assets/js/config.js"></script>
+  </head>
+
+  <body style="background-color: #e6e8f0;">
+    <!-- Content -->
+ <!-- VENTANA MODAL -->
+<!-- Modal -->
+<div class="modal fade" id="re_clave" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Recuperar Clave</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="controller/recupera_pass/recuperar.php" method="post">
+          <div class="modal-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="correo">Correo:</label> <span class="text-danger">(*)</span>
+                        <input type="email" name="correo" id="correo" class="form-control" required>
+                        <small>Ingrese su Correo para Recuperar su Contraseña</small>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                  <button type="submit" class="btn btn-primary">Recuperar</button>
+                </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- FIN VENTANA MODAL -->
+<div class="container-xxl">
+<div class="authentication-wrapper authentication-basic container-p-y">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-xxl-11">
+        <div class="">
+          <div class="row g-0">
+            <div class="col-12 col-md-6 " id="medico">
+              <img class="img-fluid rounded-start w-100 h-100 object-fit-cover" loading="lazy" src="assets/img/lat.svg" alt="Bienvenido a PayMed">
+            </div>
+            <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
+              <div class="col-12 col-lg-11 col-xl-10">
+                <div class="card-body p-3 p-md-4 p-xl-5" style="background-color: white; border-radius: 22px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="mb-6">
+                        <div class="app-brand demo">
+                          <img class="img-fluid rounded mx-auto d-block mt-6" src="assets/img/logos/logoPrin.png" alt="LOGO" srcset="" style="width: 50%;" >
+                            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                                <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                            </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <form action="auth/security.php" method="POST">
+                    <div class="row gy-3 overflow-hidden">
+                     <div class="mb-3">
+                        <label for="usuario" class="form-label">Email o Usuario</label>
+                        <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Ingresa tu Usuario" autofocus required  />
+                      </div>
+
+                      <div class="mb-3 form-password-toggle">
+                        <div class="d-flex justify-content-between">
+                          <label class="form-label" for="clave">Contraseña</label>
+                        </div>
+                        <div class="input-group input-group-merge">
+                          <input type="password" id="clave" class="form-control" name="clave" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="clave" required/>
+                          <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                        </div>
+                      </div>
+
+                      <div class="col-12 d-flex justify-content-between align-items-center">
+                        <div class="form-check ">
+                          <input class="form-check-input" type="checkbox" name="recordar" id="recordar">
+                          <label class="form-check-label text-secondary" for="recordar">
+                            Recordar Usuario
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <div class="d-grid">
+                          <button class="btn btn-primary btn-lg" type="submit" id="enviar">INGRESAR</button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="d-flex gap-5 flex-column flex-md-row justify-content-md-center mt-3">
+                        <a class="btn-link" data-bs-target="#re_clave" data-bs-toggle="modal">¿Olvidaste tu Contraseña?</a>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+      </div>
+      <div class="d-flex  flex-column flex-md-row justify-content-md-center">
+        <p>Copyright © 2024 PayMedGlobal C.A, Todos los derechos reservados</p>
+      </div>
+    </div>
+    <!-- / Content -->
+   
+    <script src="assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="assets/vendor/libs/popper/popper.js"></script>
+    <script src="assets/vendor/js/bootstrap.js"></script>
+    <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="assets/vendor/js/menu.js"></script>
+    <script src="libs/sweetalert/sweetalert.js"></script>
+    <script src="assets/js/main.js"></script>
+
+  </body>
+
+</html>
