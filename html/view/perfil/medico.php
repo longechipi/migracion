@@ -325,7 +325,7 @@ $row = $ares->fetch_array();
 										confirmButtonText: 'Aceptar'
 									}).then((result) => {
 										if (result.isConfirmed) {
-											window.location.href = "perfil.php";
+											window.location.href = "perfil";
 										}
 									});
 								}else{
@@ -345,185 +345,78 @@ $row = $ares->fetch_array();
 		</div><!-- FIN PESTAÑA DE DATOS BASICOS -->
 		<!-- PESTAÑA DE DATOS BANCARIOS -->
 		<div class="tab-pane fade" id="bancos" role="tabpanel">
-			<form id="upd_banco">
-				<input type="text" name="idmed_banco" id="idmed_banco" value="<?php echo $idlogin; ?>" hidden />
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="apellido1">Titular </label>
-							<input type="text" name="titular" id="titular" value="<?php echo strtoupper($row['apellido1']).' '. strtoupper($row['apellido2']).' '. strtoupper($row['nombre1']).' '. strtoupper($row['nombre2']); ?>" class="form-control" readonly>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="nrodoc">Nro. Documento:</label>
-							<input type="text" name="nrodoc" id="nrodoc" value="<?php echo $row['nrodoc'];?>" class="form-control mb-3" readonly>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<?php 
-					//--------- DATA DE CUENTAS NACIONALES ---------//
-					$a1 = ("SELECT  a.idlogin, a.titular, a.nrodoc, a.idbco, b.banco, a.idtipocuenta, 
-					c.tipocuenta, a.nrocuenta, a.idestatus 
-					FROM datbconac a, bancos b, tipocuenta c
-					WHERE a.idbco=b.idbco AND a.idtipocuenta=c.idtipocuenta AND a.idlogin = $idlogin;");
-					$a1res=$mysqli->query($a1);
-					$row_cnt_nac = $a1res->num_rows;
-					if($row_cnt_nac > 0){
-						$row1=$a1res->fetch_array();
-					}
-					//--------- DATA SI TIENE CUENTA INTERNACIONAL --------//
-					$a2 = "SELECT CI.*, P.pais, B.banco
-							FROM datbcoint CI
-							INNER JOIN paises P ON CI.idpais = P.idpais
-							INNER JOIN bancos B ON CI.idbco = B.idbco
-							WHERE idlogin = $idlogin
-							AND B.idestatus = 1
-							AND P.idestatus = 1";
-					$a2res=$mysqli->query($a2);
-					$row_cnt = $a2res->num_rows;
-					if($row_cnt > 0){
-						$row2=$a2res->fetch_array();
-					}	
-
-					?>
-					<div class="divider">
-						<div class="divider-text">Datos Transferencia Nacional</div>
-					</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="idbco">Banco:</label>
-						<select id="idbco" class="form-select mb-3" name="idbco" required>
-							<?php
-							echo $row_cnt_nac > 0 ? '<option value="'.$row1['idbco'].'">'.$row1['banco'].'</option>' : '<option value="" selected disabled>Seleccionar</option>';
-							?>
-							<?php
-							$query = $mysqli -> query ("SELECT idbco, banco FROM bancos WHERE tipo='1' AND idestatus='1'");
-							while ($valores = mysqli_fetch_array($query)) {
-							echo '<option value="'.$valores['idbco'].'">'.$valores['banco'].'</option>';
-						} ?>
-						
-						</select>
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="idtipocuenta">Tipo Cta:</label>
-						<select id="idtipocuenta" class="form-select" name="idtipocuenta" required>
-							<?php echo $row_cnt_nac > 0 ? '<option value="'.$row1['idtipocuenta'].'">'.$row1['tipocuenta'].'</option>' : '<option value="" selected disabled>Seleccionar</option>'; ?>
-						<?php
-							$query = $mysqli -> query ("SELECT idtipocuenta, tipocuenta FROM tipocuenta WHERE idestatus='1'; ");
-							while ($valores = mysqli_fetch_array($query)) {
-							echo '<option value="'.$valores['idtipocuenta'].'">'.$valores['tipocuenta'].'</option>';
-						} ?>
-						
-						</select>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="nrocuenta">Nro. Cuenta: <span><small>(Solo Nùmeros, 20 Digitos)</small></span> </label>
-							<?php echo $row_cnt_nac > 0 ? '<input type="text" name="nrocuenta" id="nrocuenta" minlength="20" maxlength="20" value="'.$row1['nrocuenta'].'" class="form-control" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" required>' : '<input type="text" name="nrocuenta" id="nrocuenta" minlength="20" maxlength="20" placeholder="0000-0000-00-0000000000" class="form-control" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" required>';?>
-					</div>
-				</div>
-
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="nrocuenta">¿Posee Cuenta Internacional?</label>
-						<select name="bank_inter" class="form-select" id="bank_inter" required>
-							<option value="" selected disabled>Seleccionar</option>
-							<option value="0">No</option>
-							<option value="1">Si</option>
-						</select>
-					</div>
-				</div>
-			<div class="row" id="cuenta_inter" hidden>
+		<?php 
+			//--------- DATA DE CUENTAS ---------//
+			$a="SELECT DBM.id, U.id_user, CONCAT(M.nac, '', M.cedula) AS cedula, CONCAT(apellido1, ' ', nombre1) AS nom_titular, 
+				DBM.id_ban, B.cod_ban, B.banco, B.nacional,
+				CASE WHEN B.nacional = 1 THEN 'NACIONAL'
+						ELSE 'INTERNACIONAL'
+					END AS tip_banco,
+				TCB.id AS id_tip, TCB.tipo_cuenta, DBM.nro_cuenta, DBM.ach, DBM.swit, DBM.aba, DBM.id_sta, E.nom_sta
+				FROM users U
+				INNER JOIN medicos M ON U.id_user = M.id_user 
+				LEFT JOIN datos_bancarios_med DBM ON M.id_user = DBM.id_user
+				LEFT JOIN bancos B ON DBM.id_ban = B.id_ban
+				LEFT JOIN tipo_cuenta_banco TCB ON DBM.id_tip = TCB.id
+				LEFT JOIN users_status US ON U.id_user = US.id_user
+				LEFT JOIN estatus E ON DBM.id_sta = E.id_sta
+				WHERE U.id_user = $id_user
+				AND US.id_sta IN (1, 4)";
+				$ares=$mysqli->query($a);
+				
+			?>
+			<div class="row">
 				<div class="divider">
-					<div class="divider-text">Datos Transferencia Internacional</div>
+					<div class="divider-text">Cuentas Asociadas</div>
 				</div>
-			
-				<div class="col-md-3 mb-3">
-					<div class="form-group">
-						<label for="idpais" class="control-label">Pais:</label>
-						<select id="idpais" class="form-control" name="idpais" >
-							<?php echo $row_cnt > 0 ? '<option value="'.$row2['idpais'].'">'.$row2['pais'].'</option>' : '<option value="" selected disabled>Seleccionar</option>'; ?>
-							<?php
-							$query = $mysqli -> query ("SELECT idpais, pais FROM paises WHERE idestatus='1';");
-							while ($valores = mysqli_fetch_array($query)) {
-							echo '<option value="'.$valores['idpais'].'">'.$valores['pais'].'</option>';
-							} ?>
-						</select>
-					</div>
-				</div> 
+				<div class="text-center">
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crear_cuenta">CREAR CUENTA</button>
+				
+				</div>
 
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="idbcoint">Banco:</label>
-						<select id="idbcoint" class="form-select" name="idbcoint" >
-						<?php echo $row_cnt > 0 ? '<option value="'.$row2['idbco'].'">'.$row2['banco'].'</option>' : '<option value="" selected disabled>Seleccionar</option>'; ?>
-							<?php
-							$query = $mysqli -> query ("SELECT idbco, banco FROM bancos WHERE tipo='2' AND idestatus='1' ; ");
-							while ($valores = mysqli_fetch_array($query)) {
-							echo '<option value="'.$valores['idbco'].'">'.$valores['banco'].'</option>';
-						} ?>
-						
-						</select>
-					</div>
+				<div class="table-responsive">
+					<table class="table table-hover" id="user" cellspacing="0" style="width: 100%;">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Banco</th>
+								<th>Tipo</th>
+								<th>Cuenta</th>
+								<th>Nro. Cuenta</th>
+								<th>Estatus</th>
+								<th>Acción</th>
+							</tr>
+						</thead>
+					<tbody>
+						<?php while ($row = mysqli_fetch_array($ares)) { ?>
+						<tr>
+							<td><?php echo $row['id']; ?></td>
+							<td><?php echo $row['banco']; ?></td>
+							<td><?php echo $row['tip_banco']; ?></td>
+							<td><?php echo $row['tipo_cuenta']; ?></td>
+							<td><?php echo $row['nro_cuenta']; ?></td>
+							<td><?php echo $row['nom_sta']; ?></td>
+							<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEditarCuenta" data-cuenta="<?php echo $row['id']?>">Editar</button></td>
+						</tr>
+						<?php } ?>
+					</tbody>
+					</table>
 				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="nrocuentaint">Nro. Cuenta:</label>
-							<?php echo $row_cnt > 0 ? '<input type="text" name="nrocuentaint" id="nrocuentaint" minlength="8" maxlength="11" value="'.$row2['nrocuenta'].'" class="form-control" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" required>' : '<input type="text" name="nrocuentaint" id="nrocuentaint" minlength="8" maxlength="11" placeholder="00000000000" class="form-control" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" required>'; ?>
-					</div>
-				</div>
-				<!-- 3ra -->
-				<div class="col-md-4">
-					<div class="form-group">
-						<label for="ach">ACH:</label>
-							<?php echo $row_cnt > 0 ? '<input type="text" name="ach" id="ach" value="'.$row2['ach'].'" class="form-control">' : '<input type="text" name="ach" id="ach" placeholder="00000000000" class="form-control">';?>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label for="swit">SWIT:</label>
-							<?php echo $row_cnt > 0 ? '<input type="text" name="swit" id="swit" value="'.$row2['swit'].'" class="form-control">' : '<input type="text" name="swit" id="swit" placeholder="00000000000" class="form-control">';?>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label for="aba">ABA:</label>
-							<?php echo $row_cnt > 0 ? '<input type="text" name="aba" id="aba" value="'.$row2['aba'].'" class="form-control">' : '<input type="text" name="aba" id="aba" placeholder="00000000000" class="form-control">';?>
-					</div>
-				</div>
-				<!-- 4ta -->
-				<div class="col-md-8">
-					<div class="form-group">
-						<label for="dircta">Dirección Cuenta:</label>
-							<?php echo $row_cnt > 0 ? '<input type="text" name="dircta" id="dircta" value="'.$row2['dircta'].'" class="form-control">' : '<input type="text" name="dircta" id="dircta" placeholder="Dirección de la Cuenta" class="form-control">';?>
-					</div>
-				</div>
-				<div class="col-md-2">
-					<div class="form-group">
-						<label for="telf_inter">Teléfono:</label>
-							<?php echo $row_cnt > 0 ? '<input type="text" name="telf_inter" id="telf_inter" maxlength="10" minlength="10" value="'.$row2['telefono'].'" class="form-control" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" required>' : '<input type="text" name="telf_inter" id="telf_inter" maxlength="10" minlength="10" placeholder="0000000000" class="form-control" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" required>';?>
-					</div>
-				</div>
-				<div class="col-md-2">
-					<div class="form-group">
-						<label for="codpostalint">Cod.Postal:</label>
-							<?php echo $row_cnt > 0 ? '<input type="text" name="codpostalint" id="codpostalint" maxlength="5" minlength="5" value="'.$row2['codpostal'].'" class="form-control" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" required>' : '<input type="text" name="codpostalint" id="codpostalint" maxlength="5" minlength="5" placeholder="00000" class="form-control" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" required>';?>
-					</div>
-				</div>
-				</div>
+
+
 			</div>
 
-			<div class="text-center mt-4">
-				<button type="submit" id="btn_upd_banco" class="btn btn-primary"><i class="fi fi-rs-disk"></i> ACTUALIZAR</button>
-				<a href="javascript:history.back()" class="btn btn-outline-warning" rel="noopener noreferrer"><i class="fi fi-rr-undo"></i> VOLVER </a>
-			</div>
-			</form>
 			<script>
+
+			//----------- ACTIVACION DEL MODAL ------------//
+			$(document).on('show.bs.modal', '#modalEditarCuenta', function(event) {
+            var button = $(event.relatedTarget);
+            var cuenta = button.data('cuenta');
+            var modal = $(this);
+            modal.find('.modal-body').load('../html/view/perfil/modals/editar_cuenta.php?id=' + cuenta);
+            });
+
+
 				$(document).ready(function () {
 					$("#bank_inter").change(function () {
 						const selectedOption = $(this).val();
@@ -576,416 +469,3 @@ $row = $ares->fetch_array();
 			</script>
 
 		</div><!-- FIN PESTAÑA DE DATOS BANCARIOS -->
-		<!-- PESTAÑA DE DATOS DE ESPECIALIDADES -->
-		<div class="tab-pane fade" id="especialidades" role="tabpanel">
-			<div class="divider">
-				<div class="divider-text">Especialidades Médicas</div>
-			</div>
-			<div class="row">
-				<div class="col-md-5">
-					<div class="form-group">
-						<label for="apellido1">Especialidad</label>
-						<select class="form-select" id="idespmed" name="idespmed">
-							<option value="" disabled selected>Seleccione</option>
-							<?php
-							$a3 = $mysqli -> query ("SELECT idespmed, especialidad FROM especialidadmed WHERE idestatus = 1");
-							while ($row3 = mysqli_fetch_array($a3)) {
-							echo '<option value="'.$row3['idespmed'].'">'.$row3['especialidad'].'</option>'; } ?>
-						</select>
-					</div>
-				</div>
-				<div class="col-md-7">
-				<?php 
-				$b = "SELECT  c.idespmed, c.especialidad FROM medicos a, medicos_esp b, especialidadmed c
-				WHERE a.idmed= $idmed and a.idmed=b.idmed and b.idespmed =c.idespmed and a.idestatus='1'";
-				$bres=$mysqli->query($b);
-				?>
-				<div class="table-responsive">
-					<table class="table table-hover" id="tblesp" cellspacing="0" style="width: 100%;">
-					<thead>
-						<tr>
-							<th>Especialidad Seleccionada</th>
-							<th>Acción</th>
-						</tr>
-						</thead>
-						<tbody>
-							<?php
-								while ($row = $bres->fetch_array(MYSQLI_ASSOC)) {
-								echo '<tr>';
-								echo '<td>'.$row['especialidad'].'</td>';
-								echo '<td><button class="btn btn-primary" type="button" onclick="borrar('.$row['idespmed'].')" id="del-'.$row['idespmed'].'"><i class="fi fi-rr-delete-user"></i></button></td>';
-								echo '</tr>';
-								}
-							?>
-						</tbody>
-					</table>
-					</div>
-					
-				</div>
-				</div> <!-- FIN DE ROW 2 -->
-				<div class="row"> 
-				<div class="divider">
-					<div class="divider-text">Horarios de Atención</div>
-				</div>
-				<div class="text-center mb-5">
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-					<i class="fi fi-rs-disk"></i> Agregar Horarios de Atención
-					</button>
-					
-				</div>
-				
-				<div class="table-responsive">
-				<table class="table table-hover" id="user2" cellspacing="0" style="width: 100%;">
-				<thead>
-					<tr>
-						<th>Clinica</th>
-						<th>Horario de Atención</th>
-						<th>Accion</th>
-					</tr>
-				</thead>
-					<tbody>
-						<?php
-						$c = "SELECT HM.idclinica, HM.idmed, C.razsocial, HM.dia, HM.desde, HM.hasta
-								FROM horariomed HM
-								INNER JOIN clinicas C ON C.idclinica = HM.idclinica
-								WHERE idmed= 2";
-							$cres=$mysqli->query($c);
-							while ($rowc = $cres->fetch_array(MYSQLI_ASSOC)) {
-								$desde=date("g:iA", strtotime($rowc['desde']));
-								$hasta=date("g:iA", strtotime($rowc['hasta']));
-							echo '<tr>';
-							echo '<td>'.$rowc['razsocial'].'</td>';
-							echo '<td>'.$rowc['dia'].' : '.$desde.'-'.$hasta.'</td>';
-							echo '<td><button class="btn btn-primary" type="button" onclick="borrarcli('.$rowc['idclinica'].')" id="del-'.$rowc['idclinica'].'"><i class="fi fi-rr-delete-user"></i></button></td>';
-							echo '</tr>';
-							}
-						?>
-				</table>
-
-				</div>
-
-
-				</div>
-		
-			<div class="text-center mt-4">
-				<a href="javascript:history.back()" class="btn btn-outline-warning" rel="noopener noreferrer">
-					<i class="fi fi-rr-undo"></i> VOLVER 
-				</a>
-			</div>
-		<script>
-			$("#idespmed").change(function () {
-				const idespmed = $("#idespmed").val();
-				const idmed = $("#idmed").val();
-				$.ajax({
-					type: "POST",
-					url: "../model/perfil/medicos/datos_especialidades.php",
-					data: { idespmed: idespmed, idmed: idmed },
-					success: function (data) {
-						if(data == 2){
-							Swal.fire({
-								title: 'Error!',
-								text: 'La especialidad seleccionada ya esta incluida anteriormente',
-								icon: 'error',
-								confirmButtonColor: "#007ebc",
-								confirmButtonText: 'Aceptar'
-							});
-							return false;
-						}
-						const arrdata = data.split('-');
-						const id =arrdata[0];
-						const espe =arrdata[1];
-						document.getElementById("tblesp").insertRow(-1).innerHTML = '<tr><td>'+espe+'</td><td><button class="btn btn-primary" type="button" onclick="borrar('+id+')" id="del-'+id+'"><i class="fi fi-rr-delete-user"></i></button></td></tr>';
-					}
-				});
-			});
-			function borrar(id) {
-				const idmed = $("#idmed").val();
-				$.ajax({
-					type: "POST",
-					url: "../model/perfil/medicos/del_espe.php",
-					data: { id: id, idmed: idmed },
-					success: function (data) {
-						var tabla = document.getElementById("tblesp");
-						var filas = tabla.getElementsByTagName("tr");
-						for (var i = 0; i < filas.length; i++) {
-							var celdas = filas[i].getElementsByTagName("td");
-							if (celdas.length > 0) {
-								var boton = celdas[celdas.length - 1].getElementsByTagName("button")[0];
-									if (boton.getAttribute("onclick").includes(id)) {
-										tabla.deleteRow(i);
-										break;
-									}
-							}
-						}
-					}
-				});
-			}
-
-			function borrarcli(id) {
-				const idmed = $("#idmed").val();
-				$.ajax({
-					type: "POST",
-					url: "../model/perfil/medicos/del_cli.php",
-					data: { id: id, idmed: idmed },
-					success: function (data) {
-						var tabla = document.getElementById("user2");
-						var filas = tabla.getElementsByTagName("tr");
-						for (var i = 0; i < filas.length; i++) {
-							var celdas = filas[i].getElementsByTagName("td");
-							if (celdas.length > 0) {
-								var boton = celdas[celdas.length - 1].getElementsByTagName("button")[0];
-									if (boton.getAttribute("onclick").includes(id)) {
-										tabla.deleteRow(i);
-										break;
-									}
-							}
-						}
-					}
-				});
-			}
-
-			$('#idespmed').select2({
-				theme: 'bootstrap-5',
-				width: '100%',
-			});
-		</script>
-		</div><!-- FIN PESTAÑA DE DATOS DE ESPECIALIDADES -->
-		<!-- PESTAÑA DE DATOS DE DOCUMENTOS -->
-		<div class="tab-pane fade" id="documentos" role="tabpanel">
-			<div class="divider">
-                <div class="divider-text">Documentación Médica</div>
-            </div>
-			<form enctype="multipart/form-data" action="../model/perfil/medicos/add_doc.php" method="post">
-				<input type="text" id="idmed" name="idmed" value="<?php echo $idmed; ?>" hidden/> 
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-						<label for="codcolmed">Código Colegio Médico</label>
-						<input type="text" name="codcolemed" id="codcolemed" minlength="9" maxlength="9" value="<?php echo $codcolemed; ?>" class="form-control" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;"  />
-						</div>  
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-						<label for="codcolmed">MPSS</label>
-						<input type="text" name="mpsscod" id="mpsscod"  minlength="5" maxlength="5" value="<?php echo $mpss; ?>" class="form-control mb-4" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;"  />
-						</div>  
-					</div>
-
-
-					<div class="col-md-3">
-						<label for="cedula">Cédula</label>
-						<div class="custom-file">
-						<input type="file" id="cedula" name="imagen" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf">
-						</div>
-					</div>
-					<div class="col-md-3">
-					<label for="rif">RIF</label>
-						<div class="custom-file">
-						<input type="file" id="rif" name="imagen1" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf">
-						</div>
-					</div>
-					
-					<div class="col-md-3">
-					<label for="colemed">Carnet C.M.</label>
-						<div class="custom-file">
-						<input type="file" id="colemed" name="imagen2" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf">
-						</div>
-					</div>
-					<div class="col-md-3">
-					<label for="colemed">MPSS</label>
-						<div class="custom-file">
-							<input type="file" id="mpss" name="imagen3" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf">
-						</div>
-					</div>
-					<div class="text-center">
-						<button type="submit" class="btn btn-primary mt-4"><i class="fi fi-rs-cloud-upload"></i> Cargar</button>
-					</div>
-
-
-				</div>
-			</form>
-			<div class="table-responsive">
-				 <table class="table table-hover" id="user3" cellspacing="0" style="width: 100%;">
-					<thead>
-						<tr>
-							<th>Documento</th>
-							<th>Accion</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php 
-						$sql = ("SELECT iddocument, idmed, imagen, quees FROM drdocument WHERE idmed='$idmed' AND quees NOT IN ('firma', 'sello')");
-						$objimg=$mysqli->query($sql);
-						while($rowdoc = mysqli_fetch_array($objimg)) { ?>
-						<tr>
-						<td>
-							
-						<a href="../upload/doc_medicos/<?php echo $rowdoc['imagen'];?>" target="_blank"><?php echo $rowdoc['imagen']; ?></a>
-						</td>
-						<td align="center">
-							<button type="button" onclick="fdeldoc(<?php echo $rowdoc['iddocument'];?>)" class="btn btn-primary btn-sm"><i class="fi fi-rr-delete-user"></i></button>
-							
-						</td>
-						</tr>
-					<?php } ?>
-
-					</tbody>
-
-				 </table>
-			</div>
-		<script>
-		function fdeldoc(id) {
-			const idmed = $("#idmed").val();
-			$.ajax({
-				type: "POST",
-				url: "../model/perfil/medicos/del_docs.php",
-				data: { id: id, idmed: idmed },
-				success: function (data) {
-					if(data == 1){
-						Swal.fire({
-							title: "Documento Eliminado",
-							text: "Elimino con Exito el Documento y el Registro seleccionado",
-							icon: "success",
-							confirmButtonColor: "#007ebc",
-							confirmButtonText: "Aceptar"
-						})
-						var tabla = document.getElementById("user3");
-						var filas = tabla.getElementsByTagName("tr");
-						for (var i = 0; i < filas.length; i++) {
-							var celdas = filas[i].getElementsByTagName("td");
-							if (celdas.length > 0) {
-								var boton = celdas[celdas.length - 1].getElementsByTagName("button")[0];
-									if (boton.getAttribute("onclick").includes(id)) {
-										tabla.deleteRow(i);
-										break;
-									}
-							}
-						}
-					}else{
-						Swal.fire({
-							icon: "error",
-							title: "Error al Eliminar",
-							text:"Ocurrio un error al Eliminar el Documento",
-							confirmButtonText: "Volver",
-							confirmButtonColor: "#005e43",
-						})
-					}
-					if(data == 3){
-						Swal.fire({
-							icon: "error",
-							title: "No se encuentra el documento",
-							text:"Ocurrio un error al Eliminar el Documento",
-							confirmButtonText: "Volver",
-							confirmButtonColor: "#005e43",
-							}).then(function() {
-								window.location.href = "../../../html/perfil.php";
-							});
-
-					}
-				}
-			});
-		}
-		</script>
-		</div><!-- FIN PESTAÑA DE DATOS DE DOCUMENTOS -->
-		<!-- PESTAÑA DE DATOS DE SERVICIOS -->
-		<div class="tab-pane fade" id="servicios" role="tabpanel">
-			<div class="divider">
-                <div class="divider-text">Servicios Afiliados</div>
-            </div>
-			<?php 
-			 $sql = "SELECT idservaf, servicio, idestatus FROM serviciosafiliados where idestatus='1'";
-			 $result=$mysqli->query($sql);
-			// busco imagenes de firma, si tiene 
-			$sql = ("SELECT iddocument, idmed, imagen, quees FROM drdocument WHERE idmed='$idmed' AND quees='firma'; ");
-			$obj=$mysqli->query($sql); 
-			if($obj->num_rows > 0){
-				$arr=$obj->fetch_array();
-				$firmaimg=$arr['imagen'];
-			}else{
-				$firmaimg='';
-			}
-			// busco imagenes de sello, si tiene 
-			$sql = ("SELECT iddocument, idmed, imagen, quees FROM drdocument WHERE idmed='$idmed' AND quees='sello'; ");
-			$obj=$mysqli->query($sql); 
-				if($obj->num_rows > 0){
-				$arr=$obj->fetch_array();
-				$selloimg=$arr['imagen'];
-			}else{
-				$selloimg='';
-			}
-			?>
-			<div class="row">
-				<form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-					<input type="text" id="idmed" name="idmed" value="<?php echo $idmed; ?>" hidden>
-					<div style="text-align: left;">
-						<div class="row">
-						<?php while($row = mysqli_fetch_array($result)) { 
-							$sqlbusca="SELECT COUNT(*) as cant FROM convafixmedico WHERE idmed= '".$idmed."' and  idservaf = '".$row['idservaf']."'; ";
-							$obj=$mysqli->query($sqlbusca);
-							$arrlast=$obj->fetch_array();
-							$cant=$arrlast[0];
-						?>
-							<div class="col-md-3">
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" value="" id="<?php echo $row['idservaf'];?>"  onclick="fcheckafilia(this.id)" 
-									<?php if ($cant!='0') { ?>
-									checked
-									<?php } ?>
-									>
-									<label class="form-check-label" for="<?php echo $row['idservaf'];?>">
-										<?php echo $row['servicio'];?>
-									</label>
-								</div>
-							</div>
-						<?php } ?>
-							
-						</div>
-					</div>
-
-					<div class="row mt-5">
-						<div class="col-md-6">
-							<h5>Firma:</h5>
-							<div class="custom-file">
-								<input type="file" id="firma" name="imagen" class="form-control" accept="image/png, image/jpeg" >  
-								<label id="firma" class="custom-file-label" for="firma"></label> 
-								<small style="color: red" >Formato permitido: Png/Jpg</small>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<h5>Sello:</h5>
-							<div class="custom-file">
-								<input type="file" id="sello" name="imagen1" class="form-control" accept="image/png, image/jpeg" >  
-								<label id="sello"  class="custom-file-label" for="sello"></label> 
-								<small style="color: red" >Formato permitido: Png/Jpg</small>
-							</div>
-						</div>
-						<!-- Imagenes -->
-						<div align="center" class="col-md-6">
-							<img class="img-fluid" src="<?php echo $firmaimg ? "../upload/documentos_medicos/".$firmaimg : "../assets/img/elements/sinfoto.jpg"; ?>" alt="Sin Imagen Seleccionada!!!" class="img-fluid">
-						</div>
-						<div align="center" class="col-md-6">
-							<img class="img-fluid" src="<?php echo $selloimg ? "../upload/documentos_medicos/".$selloimg : "../assets/img/elements/sinfoto.jpg"; ?>" alt="Sin Imagen Seleccionada!!!" class="img-fluid">
-						</div>
-					</div>
-
-				</form>
-			</div>
-		</div>
-		<script>
-			function fcheckafilia(id){
-				const idmed = $("#idmed").val();
-            jQuery.ajax({
-                type: "POST",   
-                url: "../model/perfil/medicos/serv_afiliados_med.php",
-                data: {id: id, idmed: idmed},
-                success:function(data){ 
-                  console.log(data);
-                  if (data!='1') {
-                  }
-                }
-            });
-        }
-		</script>
-	</div>
-</div>
