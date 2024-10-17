@@ -1,21 +1,15 @@
-<?php 
-    session_start();
-	date_default_timezone_set('America/Caracas');
-	// if (!isset($_SESSION['usuario'])) {
-	// 	echo '<script language="javascript">window.location.href="../index.html";</script>';
-	// }
-	// $idlogin=$_SESSION['idlogin'];
-	// $usuario=$_SESSION['usuario'];
-	// $privilegios = $_SESSION['privilegios'];
-  // if($privilegios==2){
-  //   $a="SELECT idmed FROM medicos WHERE correo = '$usuario'";
-	// 		$ares=$mysqli->query($a);
-	// 		$resarray=$ares->fetch_array();
-	// 		$idmedico=$resarray[0];
-  // }else{
-  //   $idmedico=0;
-  // }
-	// $cargo = $_SESSION['cargo'];
+<?php
+session_start();
+date_default_timezone_set('America/Caracas');
+if (!$_SESSION['loggedin'] == true) {
+  header('location: ../index.html');
+}
+//-------- SESSIONES DE USAURIO --------//
+$id_user = $_SESSION['id_user'];
+$privilegios = $_SESSION['id_pri'];
+$estatus = $_SESSION['id_sta'];
+$user = $_SESSION['usuario'];
+$fullname = $_SESSION['nombre'];
 ?>
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <!-- LOGO E INF DEL USUARIO -->
@@ -36,18 +30,26 @@
     </a>
   </div>
     <!-- FIN LOGO E INF DEL USUARIO -->
-    <?php $host = basename($_SERVER['PHP_SELF']);
-    // if($privilegios==1){
-    //     include('../layouts/nav/menu-admin.php'); //Administrador
-    // }else if($privilegios==2){
-    //     include('../layouts/nav/menu-medico.php'); //Medicos
-    // }else if($privilegios==3){
-    //     include('../layouts/nav/menu-asegu.php'); //Aseguradora
-    // }else if($privilegios==4){
-    //     include('../layouts/nav/menu-proveedor.php'); //Proveedor
-    // }else if($privilegios==7){
-    //     include('../layouts/nav/menu-asistente.php'); //asistente
-    // }
-    ?>
+    <?php 
+    $host = basename($_SERVER['PHP_SELF']);
+    switch ($privilegios) {
+      case 1:
+        //------ MENU ADMINISTRADOR -------//
+        include('../layouts/nav/menu-admin.php');
+        break;
+      case 6:
+        //------ MENU MEDICO -------//
+        include('../layouts/nav/menu-medico.php');
+        break;
+      case 7:
+        //------ MENU ASISTENTE -------//
+        include('../layouts/nav/menu-asistente.php');
+        break;
+      default:
+        // Manejar caso en el que no exista el privilegio
+        echo "Privilegio no válido";
+  }
+
+?>
 
 </aside>

@@ -1,31 +1,20 @@
-<?php 
-$a="SELECT idlogin, fullname, cargo FROM loginn WHERE idlogin = $idlogin";
-$ares=$mysqli->query($a);
-$row=$ares->fetch_assoc();
-?>
-
-
 <nav class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
-<div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0   d-xl-none ">
-        <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
-          <i class="bx bx-menu bx-md"></i>
-        </a>
-      </div>
+  <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0   d-xl-none ">
+    <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+      <i class="bx bx-menu bx-md"></i>
+    </a>
+  </div>
 
   <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
     <!-- Identidad -->
     <div class="navbar-nav align-items-center">
-      <div class="nav-item d-flex align-items-center">Dashboard PayMed Global</div>
+      <div class="nav-item d-flex align-items-center"><strong>Bienvenido </strong><?php echo ($privilegios == 6) ? "<strong>Doctor: &nbsp; </strong>" . $fullname : "&nbsp;" . $fullname;?></div>
     </div>
     <!-- /Identidad -->
-
     <ul class="navbar-nav flex-row align-items-center ms-auto">
-    
       <div class="form-check form-switch">
-        
         <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
         <label class="form-check-label" for="flexSwitchCheckDefault"><span><i class="bx bx-sun bx-sm me-3"></i></span></label>
-        
       </div>
       <?php include('../layouts/notifica.php')?>
       <!-- User -->
@@ -45,8 +34,8 @@ $row=$ares->fetch_assoc();
                   </div>
                 </div>
                 <div class="flex-grow-1">
-                  <span class="fw-semibold d-block"><?php echo $row['fullname'];?></span>
-                  <small class="text-muted"><?php echo $row['cargo']?></small>
+                  <span class="fw-semibold d-block"><?php echo $fullname;?></span>
+                  <small class="text-muted"><?php //echo $row['cargo']?></small>
                 </div>
               </div>
             </a>

@@ -1,6 +1,5 @@
 <!-- Sidebar Menu -->
 <?php
-
 $host = basename($_SERVER['PHP_SELF']);
 ?>
 <ul class="menu-inner py-1">
@@ -378,7 +377,7 @@ $host = basename($_SERVER['PHP_SELF']);
 
     <li class="menu-item 
         <?php if ($host === "index.php") { echo 'active'; } ?>">
-            <a href="../auth/salir.php" class="menu-link">
+            <a href="../html/salir.php" class="menu-link">
                 <i class="menu-icon tf-icons fi fi-rs-leave"></i>
                 <div data-i18n="Analytics">SALIR</div>
             </a>

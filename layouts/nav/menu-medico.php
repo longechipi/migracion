@@ -1,23 +1,17 @@
-<?php
-$sqlestatus = "SELECT estatus FROM loginn WHERE idlogin ='$idlogin'";
-  $objestatus = $mysqli->query($sqlestatus);
-  $arrestatus = mysqli_fetch_array($objestatus);
-  $estatusmedico = $arrestatus['estatus'];
-  $host = basename($_SERVER['PHP_SELF']);
-?>
+<?php $host = basename($_SERVER['PHP_SELF']); ?>
 <ul class="menu-inner py-1">
     <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Módulos</span>
     </li>
     <li class="menu-item 
         <?php if ($host === "index.php") { echo 'active'; } ?>">
-            <a href="../html/index2.php?usr=1" class="menu-link">
+            <a href="../html/inicio" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-clinic"></i>
                 <div data-i18n="Analytics">INICIO</div>
             </a>
     </li>
     <!-- Verifico si ya pago y tiene estatus Activo, sino solo muestro opccion de actualizar perfil -->
-    <?php if ($estatusmedico=='I') { ?> 
+    <?php if ($estatus== 4) { ?> 
         <!-- Perfil -->
         <li class="menu-item">
             <a href="javascript:void(0)" class="menu-link menu-toggle">
@@ -27,16 +21,16 @@ $sqlestatus = "SELECT estatus FROM loginn WHERE idlogin ='$idlogin'";
             <ul class="menu-sub">
                 <!-- Actualizar -->
                 <li class="menu-item">
-                    <a href="../html/perfil.php" id="sidebar-hono" class="menu-link empty">
-                        <div data-i18n="Accordion">Actualizar</div>
+                    <a href="../html/perfil" id="sidebar-hono" class="menu-link empty">
+                        <div data-i18n="Accordion">Datos Basicos</div>
                     </a>
                 </li>
             </ul>
         </li>
 
         <li class="menu-item 
-        <?php if ($host === "index.php") { echo 'active'; } ?>">
-            <a href="../auth/salir.php" class="menu-link">
+        <?php if ($host === "inicio") { echo 'active'; } ?>">
+            <a href="../html/salir.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-clinic"></i>
                 <div data-i18n="Analytics">SALIR</div>
             </a>
@@ -161,11 +155,10 @@ $sqlestatus = "SELECT estatus FROM loginn WHERE idlogin ='$idlogin'";
 
         <li class="menu-item 
         <?php if ($host === "index.php") { echo 'active'; } ?>">
-            <a href="../auth/salir.php" class="menu-link">
+            <a href="../html/salir.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-clinic"></i>
                 <div data-i18n="Analytics">SALIR</div>
             </a>
         </li>
-
-    <?php }?>
+    <?php } ?>
 </ul>

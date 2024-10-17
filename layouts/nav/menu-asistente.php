@@ -1,6 +1,4 @@
-<?php
-$host = basename($_SERVER['PHP_SELF']);
-?>
+<?php $host = basename($_SERVER['PHP_SELF']); ?>
 
 <ul class="menu-inner py-1">
     <li class="menu-header small text-uppercase">
@@ -96,7 +94,7 @@ $host = basename($_SERVER['PHP_SELF']);
 
     <li class="menu-item 
         <?php if ($host === "index.php") { echo 'active'; } ?>">
-            <a href="../auth/salir.php" class="menu-link">
+            <a href="../html/salir.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-clinic"></i>
                 <div data-i18n="Analytics">SALIR</div>
             </a>
