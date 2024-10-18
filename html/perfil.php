@@ -23,7 +23,7 @@ require('../conf/conex.php');
                                             switch ($privilegios) {
                                                 case 6: // Medico
                                                     include('../html/view/perfil/medico.php');
-                                                    //include('../layouts/modals/add-horarios.php');
+                                                    include('../layouts/modals/add-horarios.php');
                                                     include ('../layouts/modals/datos_bancarios.php');
                                                     include ('../layouts/modals/upt_cuenta_bank.php');
                                                     break;

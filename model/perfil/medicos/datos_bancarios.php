@@ -12,45 +12,54 @@ $ach = empty($_POST['ach']) ? '0' : $_POST['ach'];
 $swit = empty($_POST['swit']) ? '0' : $_POST['swit'];
 $aba = empty($_POST['aba']) ? '0' : $_POST['aba'];
 $id_sta = $_POST['id_sta'];
+$tipo_estatus = ($id_sta == 1) ? 'CUENTA ACTIVADA' : 'CUENTA DESACTIVADA';
 
-//-------- Verifica que tenga al menos una cuenta Activa -------//
-$a ="SELECT COUNT(*) AS cuenta FROM datos_bancarios_med WHERE id_sta = 1 AND id_user = $id_user";
-$ares=$mysqli->query($a);
-$row = $ares->fetch_assoc();
+//----- Actualiza Primero el Estatus de la Cuenta ------//
+$a="UPDATE datos_bancarios_med SET id_sta = $id_sta WHERE id = $id AND id_user = $id_user AND id_ban = $id_ban";
+$ares = $mysqli->query($a);
 
+//----- Valido Cambio y si Desactiva todo Reverso -----//
+$b = "SELECT id_sta FROM datos_bancarios_med WHERE id_user = $id_user";
+$bres = $mysqli->query($b);
+$cuentas_activas = 0;
+$cuentas_desactivadas = 0;
+while ($row = $bres->fetch_assoc()) {
+    if ($row['id_sta'] == 1) {
+        $cuentas_activas++;
+    } else if ($row['id_sta'] == 2) {
+        $cuentas_desactivadas++;
+    }
+}
+if ($cuentas_activas == 0) {
+    $c="UPDATE datos_bancarios_med SET id_sta = 1 WHERE id = $id AND id_user = $id_user AND id_ban = $id_ban";
+    $cres = $mysqli->query($c);
+    echo 2;
+    //------ REGISTRO DE LOG -------//
+    register_log($mysqli, $id_user,'CAMBIO STATUS', 'PERFIL', 'USUARIO INTENTO CAMBIAR ESTATUS DE CUENTA, SE REVERSA POR CUENTAS INACTIVAS'); 
 
-// $total_registros = $ares->num_rows;
-// $contador_dos = 0;
-// while ($row = $ares->fetch_assoc()) {
-//     if ($row['id_sta'] == 2) {
-//         $contador_dos++;
-//     }
-// }
-
-// if ($contador_dos == $total_registros && $total_registros > 0) {
-//     // Todos los id_sta son 2 y hay registros
-//     echo "error TODFOS";
-// } else {
-//     // Hay al menos un id_sta diferente de 2 o no hay registros
-//     // ... resto del código para la actualización
-//     echo "Existe uno por l menos"
-// }
-
-// if ($todosSonDos && $totalRegistros > 0) {
-//     echo "ALERTA";
-// } else {
-//     echo "ACTUALIZO";
-// //    $b="UPDATE datos_bancarios_med SET id_ban = '$id_ban', id_tip = '$id_tip_cuenta', 
-// //    nro_cuenta = '$nro_cuenta', ach = '$ach', swit = '$swit', aba = '$aba', id_sta = $id_sta
-// //    WHERE id = $id AND id_user = $id_user";
-// //    $bres = $mysqli->query($b);
-// //    if ($bres) {
-// //        echo 1;
-// //    } else {
-// //        echo 3;
-// //    }
-// }
-
-
-
+} else if ($cuentas_activas == 1 && $cuentas_desactivadas > 0) {
+    $d="UPDATE datos_bancarios_med SET id_ban = '$id_ban', id_tip = '$id_tip_cuenta', 
+    nro_cuenta = '$nro_cuenta', ach = '$ach', swit = '$swit', aba = '$aba', id_sta = $id_sta
+    WHERE id = $id AND id_user = $id_user";
+    $bres = $mysqli->query($b);
+    if ($bres) {
+        //------ REGISTRO DE LOG -------//
+        register_log($mysqli, $id_user,'CAMBIO STATUS', 'PERFIL', 'USUARIO CAMBIO ESTATUS DE A: '.$tipo_estatus.'');
+        echo 1;
+    } else {
+        echo 3;
+    }
+} else {
+    $d="UPDATE datos_bancarios_med SET id_ban = '$id_ban', id_tip = '$id_tip_cuenta', 
+    nro_cuenta = '$nro_cuenta', ach = '$ach', swit = '$swit', aba = '$aba', id_sta = $id_sta
+    WHERE id = $id AND id_user = $id_user";
+    $bres = $mysqli->query($b);
+    if ($bres) {
+        //------ REGISTRO DE LOG -------//
+        echo 1;
+        register_log($mysqli, $id_user,'CAMBIO STATUS', 'PERFIL', 'USUARIO CAMBIO ESTATUS DE A: '.$tipo_estatus.'');
+    } else {
+        echo 3;
+    }
+}
 ?>

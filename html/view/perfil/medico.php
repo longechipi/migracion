@@ -315,7 +315,6 @@ $row = $ares->fetch_array();
 							url: "../model/perfil/medicos/datos_basicos.php",
 							data: $(this).serialize(),
 							success: function (data) {
-								console.log(data)
 								if(data == 1){
 									Swal.fire({
 										title: 'Actualización Exitosa!',
@@ -370,8 +369,7 @@ $row = $ares->fetch_array();
 					<div class="divider-text">Cuentas Asociadas</div>
 				</div>
 				<div class="text-center">
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crear_cuenta">CREAR CUENTA</button>
-				
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crear_cuenta">CREAR CUENTA</button>
 				</div>
 
 				<div class="table-responsive">
@@ -396,14 +394,12 @@ $row = $ares->fetch_array();
 							<td><?php echo $row['tipo_cuenta']; ?></td>
 							<td><?php echo $row['nro_cuenta']; ?></td>
 							<td><?php echo $row['nom_sta']; ?></td>
-							<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEditarCuenta" data-cuenta="<?php echo $row['id']?>">Editar</button></td>
+							<td><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEditarCuenta" data-cuenta="<?php echo $row['id']?>"><i class="fi fi-rr-user-pen"></i> &nbsp;&nbsp;Editar</button></td>
 						</tr>
 						<?php } ?>
 					</tbody>
 					</table>
 				</div>
-
-
 			</div>
 
 			<script>
@@ -415,8 +411,6 @@ $row = $ares->fetch_array();
             var modal = $(this);
             modal.find('.modal-body').load('../html/view/perfil/modals/editar_cuenta.php?id=' + cuenta);
             });
-
-
 				$(document).ready(function () {
 					$("#bank_inter").change(function () {
 						const selectedOption = $(this).val();
@@ -469,3 +463,183 @@ $row = $ares->fetch_array();
 			</script>
 
 		</div><!-- FIN PESTAÑA DE DATOS BANCARIOS -->
+
+				<!-- PESTAÑA DE DATOS DE ESPECIALIDADES -->
+				<div class="tab-pane fade" id="especialidades" role="tabpanel">
+			<div class="divider">
+				<div class="divider-text">Especialidades Médicas</div>
+			</div>
+			<div class="row">
+				<div class="col-md-5">
+					<div class="form-group">
+						<label for="apellido1">Especialidad</label>
+						<select class="form-select" id="idespmed" name="idespmed">
+							<option value="" disabled selected>Seleccione</option>
+							<?php
+							$a = $mysqli -> query ("SELECT id_espe, especialidad FROM especialidades_med WHERE id_sta = 1");
+							while ($row = mysqli_fetch_array($a)) {
+							echo '<option value="'.$row['id_espe'].'">'.$row['especialidad'].'</option>'; } 
+							?>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-7">
+				<?php 
+				$b = "SELECT ME.id, ME.id_user, EM.especialidad
+					FROM medico_especialidad ME
+					LEFT JOIN especialidades_med EM ON EM.id_espe = ME.id_espe
+					WHERE ME.id_user = $id_user
+					AND EM.id_sta = 1";
+				$bres=$mysqli->query($b);
+				?>
+				<div class="table-responsive">
+					<table class="table table-hover" id="tblesp" cellspacing="0" style="width: 100%;">
+					<thead>
+						<tr>
+							<th>Especialidad Seleccionada</th>
+							<th>Acción</th>
+						</tr>
+						</thead>
+						<tbody>
+							 <?php
+								while ($row = $bres->fetch_array(MYSQLI_ASSOC)) {
+								echo '<tr>';
+								echo '<td>'.$row['especialidad'].'</td>';
+								echo '<td><button class="btn btn-primary" type="button" onclick="borrar('.$row['id'].')" id="del-'.$row['id'].'"><i class="fi fi-rr-delete-user"></i></button></td>';
+								echo '</tr>';
+								}
+							?> 
+						</tbody>
+					</table>
+					</div>
+					
+				</div>
+				</div> <!-- FIN DE ROW 2 -->
+				<div class="row"> 
+				<div class="divider">
+					<div class="divider-text">Horarios de Atención</div>
+				</div>
+				<div class="text-center mb-5">
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+					<i class="fi fi-rs-disk"></i> Agregar Horarios de Atención
+					</button>
+					
+				</div>
+				
+				<div class="table-responsive">
+				<table class="table table-hover" id="user2" cellspacing="0" style="width: 100%;">
+				<thead>
+					<tr>
+						<th>Clinica</th>
+						<th>Horario de Atención</th>
+						<th>Accion</th>
+					</tr>
+				</thead>
+					<tbody>
+						<?php
+						// $c = "SELECT HM.idclinica, HM.idmed, C.razsocial, HM.dia, HM.desde, HM.hasta
+						// 		FROM horariomed HM
+						// 		INNER JOIN clinicas C ON C.idclinica = HM.idclinica
+						// 		WHERE idmed= 2";
+						// 	$cres=$mysqli->query($c);
+						// 	while ($rowc = $cres->fetch_array(MYSQLI_ASSOC)) {
+						// 		$desde=date("g:iA", strtotime($rowc['desde']));
+						// 		$hasta=date("g:iA", strtotime($rowc['hasta']));
+						// 	echo '<tr>';
+						// 	echo '<td>'.$rowc['razsocial'].'</td>';
+						// 	echo '<td>'.$rowc['dia'].' : '.$desde.'-'.$hasta.'</td>';
+						// 	echo '<td><button class="btn btn-primary" type="button" onclick="borrarcli('.$rowc['idclinica'].')" id="del-'.$rowc['idclinica'].'"><i class="fi fi-rr-delete-user"></i></button></td>';
+						// 	echo '</tr>';
+						// 	}
+						?>
+				</table>
+
+				</div>
+
+
+				</div>
+		
+			<div class="text-center mt-4">
+				<a href="javascript:history.back()" class="btn btn-outline-warning" rel="noopener noreferrer">
+					<i class="fi fi-rr-undo"></i> VOLVER 
+				</a>
+			</div>
+		<script>
+			$("#idespmed").change(function () {
+				const idespmed = $("#idespmed").val();
+				const idmed = $("#id_user").val();
+				$.ajax({
+					type: "POST",
+					url: "../model/perfil/medicos/datos_especialidades.php",
+					data: { idespmed: idespmed, idmed: idmed },
+					success: function (data) {
+						console.log(data)
+						if(data == 2){
+							Swal.fire({
+								title: 'Error!',
+								text: 'La especialidad seleccionada ya esta incluida anteriormente',
+								icon: 'error',
+								confirmButtonColor: "#007ebc",
+								confirmButtonText: 'Aceptar'
+							});
+							return false;
+						}
+						const arrdata = data.split('-');
+						const id =arrdata[0];
+						const espe =arrdata[1];
+						document.getElementById("tblesp").insertRow(-1).innerHTML = '<tr><td>'+espe+'</td><td><button class="btn btn-primary" type="button" onclick="borrar('+id+')" id="del-'+id+'"><i class="fi fi-rr-delete-user"></i></button></td></tr>';
+					}
+				});
+			});
+			function borrar(id) {
+				const idmed = $("#id_user").val();
+				$.ajax({
+					type: "POST",
+					url: "../model/perfil/medicos/del_espe.php",
+					data: { id: id, idmed: idmed },
+					success: function (data) {
+						var tabla = document.getElementById("tblesp");
+						var filas = tabla.getElementsByTagName("tr");
+						for (var i = 0; i < filas.length; i++) {
+							var celdas = filas[i].getElementsByTagName("td");
+							if (celdas.length > 0) {
+								var boton = celdas[celdas.length - 1].getElementsByTagName("button")[0];
+									if (boton.getAttribute("onclick").includes(id)) {
+										tabla.deleteRow(i);
+										break;
+									}
+							}
+						}
+					}
+				});
+			}
+
+			function borrarcli(id) {
+				const idmed = $("#idmed").val();
+				$.ajax({
+					type: "POST",
+					url: "../model/perfil/medicos/del_cli.php",
+					data: { id: id, idmed: idmed },
+					success: function (data) {
+						var tabla = document.getElementById("user2");
+						var filas = tabla.getElementsByTagName("tr");
+						for (var i = 0; i < filas.length; i++) {
+							var celdas = filas[i].getElementsByTagName("td");
+							if (celdas.length > 0) {
+								var boton = celdas[celdas.length - 1].getElementsByTagName("button")[0];
+									if (boton.getAttribute("onclick").includes(id)) {
+										tabla.deleteRow(i);
+										break;
+									}
+							}
+						}
+					}
+				});
+			}
+
+			$('#idespmed').select2({
+				theme: 'bootstrap-5',
+				width: '100%',
+			});
+		</script>
+		</div><!-- FIN PESTAÑA DE DATOS DE ESPECIALIDADES -->

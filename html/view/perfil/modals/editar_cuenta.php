@@ -148,40 +148,40 @@ $('#banco').submit(function (e) {
         success: function (data) {
             console.log(data)
 
-            // if (data == 1) {
-            //     Swal.fire({
-            //         title: 'Actualización Exitosa!',
-            //         text: 'Se Actualizo correctamente la Cuenta Bancaria',
-            //         icon: 'success',
-            //         confirmButtonColor: "#007ebc",
-            //         confirmButtonText: 'Aceptar'
-            //     }).then((result) => {
-            //         location.reload();
-            //     })
+            if (data == 1) {
+                Swal.fire({
+                    title: 'Actualización Exitosa!',
+                    text: 'Se Actualizo correctamente la Cuenta Bancaria',
+                    icon: 'success',
+                    confirmButtonColor: "#007ebc",
+                    confirmButtonText: 'Aceptar'
+                }).then((result) => {
+                    location.reload();
+                })
                 
-            // }
-            // if(data == 2){
-            //     Swal.fire({
-            //         title: 'Error!',
-            //         text: 'Tiene que tener al menos una Cuenta Bancaria Activa',
-            //         icon: 'error',
-            //         confirmButtonColor: "#007ebc",
-            //         confirmButtonText: 'Aceptar'
-            //     }).then((result) => {
-            //         location.reload();
-            //     })
-            // }
-            // if(data == 3){
-            //     Swal.fire({
-            //         title: 'Error!',
-            //         text: 'No se pudo actualizar la Cuenta Bancaria',
-            //         icon: 'error',
-            //         confirmButtonColor: "#007ebc",
-            //         confirmButtonText: 'Aceptar'
-            //     }).then((result) => {
-            //         location.reload();
-            //     })
-            // }
+            }
+            if(data == 2){
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Tiene que tener al menos una Cuenta Bancaria Activa',
+                    icon: 'error',
+                    confirmButtonColor: "#007ebc",
+                    confirmButtonText: 'Aceptar'
+                }).then((result) => {
+                    location.reload();
+                })
+            }
+            if(data == 3){
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'No se pudo actualizar la Cuenta Bancaria',
+                    icon: 'error',
+                    confirmButtonColor: "#007ebc",
+                    confirmButtonText: 'Aceptar'
+                }).then((result) => {
+                    location.reload();
+                })
+            }
                
            
         }
