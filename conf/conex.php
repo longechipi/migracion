@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "12345";
-$dbname = "paymedglobal";
+$dbname = "paymed";
 
 $mysqli = new mysqli($servername, $username, $password, $dbname);
 $mysqli->set_charset("utf8");

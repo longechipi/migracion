@@ -2,27 +2,6 @@
 $a = "SELECT * FROM medicos WHERE id_user = $id_user";
 $ares = $mysqli->query($a);
 $row = $ares->fetch_array();
-// $idmed = $row['idmed'];
-// $codcolemed = $row['codcolemed'];
-// $mpss = $row['mpss'];
-
-// $idpais=$row['idpais'];
-// $sql = ("SELECT pais from paises WHERE idpais='".$row['idpais']."'");
-// $obj=$mysqli->query($sql); $arr=$obj->fetch_array();  
-// $pais=$arr[0];
-// $idestado=$row['idestado'];
-// $sql = ("SELECT estado from estado WHERE idestado='".$idestado."';");
-// $obj=$mysqli->query($sql); $arr=$obj->fetch_array();  
-// $estado=$arr[0];
-// $idmunicipio=$row['idmunicipio'];
-// $sql = ("SELECT municipio from municipios WHERE idmunicipio='".$idmunicipio."';");
-// $obj=$mysqli->query($sql); $arr=$obj->fetch_array();  
-// $municipio=$arr[0];
-// $idparroquia=$row['idparroquia'];
-// $sql = ("SELECT parroquia from parroquias WHERE idparroquia='".$idparroquia."';");
-// $obj=$mysqli->query($sql); $arr=$obj->fetch_array();  
-// $parroquia=$arr[0];
-
 ?>
 <script src="../assets/js/funciones.js"></script>
 <div class="nav-align-top mb-4">
@@ -537,20 +516,21 @@ $row = $ares->fetch_array();
 				</thead>
 					<tbody>
 						<?php
-						// $c = "SELECT HM.idclinica, HM.idmed, C.razsocial, HM.dia, HM.desde, HM.hasta
-						// 		FROM horariomed HM
-						// 		INNER JOIN clinicas C ON C.idclinica = HM.idclinica
-						// 		WHERE idmed= 2";
-						// 	$cres=$mysqli->query($c);
-						// 	while ($rowc = $cres->fetch_array(MYSQLI_ASSOC)) {
-						// 		$desde=date("g:iA", strtotime($rowc['desde']));
-						// 		$hasta=date("g:iA", strtotime($rowc['hasta']));
-						// 	echo '<tr>';
-						// 	echo '<td>'.$rowc['razsocial'].'</td>';
-						// 	echo '<td>'.$rowc['dia'].' : '.$desde.'-'.$hasta.'</td>';
-						// 	echo '<td><button class="btn btn-primary" type="button" onclick="borrarcli('.$rowc['idclinica'].')" id="del-'.$rowc['idclinica'].'"><i class="fi fi-rr-delete-user"></i></button></td>';
-						// 	echo '</tr>';
-						// 	}
+						$c = "SELECT MC.id, MC.id_cli, MC.id_med, C.nom_cli, MH.dia, MH.desde, MH.hasta 
+							FROM medico_clinicas MC
+							INNER JOIN clinicas C ON MC.id_cli = C.id_cli
+							INNER JOIN medico_horario MH ON MC.id_med = MH.id_med
+							WHERE MC.id_med = $id_user";
+						 	$cres=$mysqli->query($c);
+							while ($rowc = $cres->fetch_array(MYSQLI_ASSOC)) {
+								$desde=date("g:iA", strtotime($rowc['desde']));
+								$hasta=date("g:iA", strtotime($rowc['hasta']));
+								echo '<tr>';
+									echo '<td>'.$rowc['nom_cli'].'</td>';
+									echo '<td>'.$rowc['dia'].' : '.$desde.'-'.$hasta.'</td>';
+									echo '<td><button class="btn btn-primary" type="button" onclick="borrarcli('.$rowc['id'].')" id="del-'.$rowc['id'].'"><i class="fi fi-rr-delete-user"></i></button></td>';
+								echo '</tr>';
+							}
 						?>
 				</table>
 

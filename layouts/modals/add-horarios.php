@@ -22,15 +22,16 @@ $row = $ares->fetch_assoc();
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="apellido1">Clinicas:</label>
-                          <select name="idclinica" id="idclinica" class="form-select" required>
+                          <select name="idclinica" id="idclinica" class="form-select" required />
                             <option value="" selected disabled>Seleccione</option>
                             <?php
-                            // $query = $mysqli -> query 
-                            // ("SELECT a.idclinica, a.razsocial 
-                            // from clinicas a
-                            // WHERE a.idclinica not in(select b.idclinica from clinicamedico b where b.idmed='$idmed') AND a.idestatus='1';");
-                            // while ($valores = mysqli_fetch_array($query)) {
-                            // echo '<option value="'.$valores['idclinica'].'">'.$valores['razsocial'].'</option>';} ?>
+                            $a = "SELECT C.id_cli, C.nom_cli
+                            FROM clinicas C
+                            WHERE C.id_cli NOT IN (SELECT MD.id_cli FROM medico_clinicas MD WHERE MD.id_med= $id_user) AND C.id_sta = 1";
+                            $ares=$mysqli->query($a);
+                            while ($val = mysqli_fetch_array($ares)) {
+                              echo '<option value="'.$val['id_cli'].'">'.$val['nom_cli'].'</option>';
+                              } ?>
                           </select>
                     </div>
                 </div>
@@ -38,48 +39,64 @@ $row = $ares->fetch_assoc();
                 <div class="col-md-2">
                   <div class="form-group">
                     <label for="consultorionro">Consultorio: </label>
-                    <input type="text" name="consultorio" id="consultorio" class="form-control" />
+                    <input type="text" name="consultorio" id="consultorio" class="form-control" required />
                   </div>      
                 </div>
 
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label for="piso">Piso: </label>
-                    <input type="text" name="piso" id="piso" class="form-control" />
-                  </div>      
-                </div>
-                <div class="col-md-2">
+                
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="telefono1">Telf 1: </label>
-                    <input type="text" name="telefono1" id="telefono1" class="form-control" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" />
+                    <input type="text" name="telefono1" id="telefono1" class="form-control" maxlength="12" minlength="12" required />
                   </div>      
                 </div>
+                <script>
+                  const telf = document.querySelector("#telefono1");
+                  window.intlTelInput(telf, {
+                    loadUtilsOnInit: "https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/js/utils.js",
+                    initialCountry: "ve",
+                  });
+                </script>
 
-                <div class="col-md-2">
+                <div class="col-md-3 mb-4">
                   <div class="form-group">
                     <label for="telefono2">Telf 2: </label>
-                    <input type="text" name="telefono2" id="telefono2" class="form-control mb-3" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" />
+                    <input type="text" name="telefono2" id="telefono2" class="form-control mb-3" maxlength="12" minlength="12" />
+                  </div>      
+                </div>
+                <script>
+                  const telf2 = document.querySelector("#telefono2");
+                  window.intlTelInput(telf2, {
+                    loadUtilsOnInit: "https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/js/utils.js",
+                    initialCountry: "ve",
+                  });
+                </script>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="piso">Piso: </label>
+                    <input type="text" name="piso" id="piso" class="form-control" required />
                   </div>      
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="pacxdia">Paciente por día</label>
-                    <input type="text" class="form-control" name="pacxdia" id="pacxdia" value="0" size="3" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" />
+                    <input type="text" class="form-control" name="pacxdia" id="pacxdia" placeholder="00" onkeypress="return numeros(this, event);"/>
                   </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="pacconseg">Pacientes Con Seguro</label>
-                    <input type="text" class="form-control" name="pacconseg" id="pacconseg" value="0" size="3" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" />
+                    <input type="text" class="form-control" name="pacconseg" id="pacconseg" placeholder="00" onkeypress="return numeros(this, event);"/>
                   </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="pacsinseg">Pacientes Sin Seguro</label>
-                    <input type="text" class="form-control" name="pacsinseg" id="pacsinseg" value="0" size="3" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" />
+                    <input type="text" class="form-control" name="pacsinseg" id="pacsinseg" placeholder="00" onkeypress="return numeros(this, event);" />
                   </div>
                 </div>
 
@@ -129,6 +146,7 @@ $row = $ares->fetch_assoc();
                           <th>Dia</th>
                           <th>Desde</th>
                           <th>Hasta</th>
+                          <th>Accion</th>
                         </tr>
                     </thead>
                       <tbody></tbody>
@@ -158,13 +176,49 @@ $('#add_hora').click(function(e){
     const desde = $('#desde').val();
     const hasta = $('#hasta').val();
     const dias = $('#dias').val();
+    const button = '<button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>X</button>';
     if(desde == '' || hasta == ''){
-        alert('Tiene que Seleccionar el Horario de Atención');
-        return;
+          Swal.fire({
+            title: '¡Error!',
+            text: '¡El horario de Atencion no puede estar Vacio!',
+            icon: 'error',
+            confirmButtonColor: "#007ebc",
+            confirmButtonText: 'Aceptar'
+          }).then(() => {
+              const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+              modal.hide();
+            });
+          return;
     }
-    const html = `<tr><td>${dias}</td><td>${desde}</td><td>${hasta}</td></tr>`;
+
+    $('#tabla-hora tr').each(function() {
+      const $row = $(this);
+      const existingDias = $row.find('td:eq(0)').text();
+      if (existingDias === dias) {
+
+        $row.remove();
+        Swal.fire({
+          title: '¡Error!',
+          text: '¡El dia ya esta agregado!',
+          icon: 'error',
+          confirmButtonColor: "#007ebc",
+          confirmButtonText: 'Aceptar'
+        }).then(() => {
+            const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+            modal.hide();
+          });
+        return;
+      }
+    });
+   
+    const html = `<tr><td>${dias}</td><td>${desde}</td><td>${hasta}</td><td>${button}</td></tr>`;
     $('#tabla-hora').append(html);
+
+    $('button').click(function(){
+      $(this).closest('tr').remove();
+    });
 });
+
     $('#horario').submit(function(e){
       e.preventDefault();
       const pacxdia = $('#pacxdia').val();
@@ -218,7 +272,7 @@ $('#add_hora').click(function(e){
               if(data == 2){
                 Swal.fire({
                   title: 'Error!',
-                  text: 'La Clinica seleccionada ya esta incluida anteriormente',
+                  text: 'Usted ya trabaja en ese Horario Seleccionado en otra Clinica',
                   icon: 'error',
                   confirmButtonColor: "#007ebc",
                   confirmButtonText: 'Aceptar'
