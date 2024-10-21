@@ -282,3 +282,36 @@ CREATE TABLE `medico_horario` (
 
 INSERT INTO medico_horario(id_cli, id_med, dia, desde, hasta, id_sta)VALUES(1, 2, 'lunes', '8:00', '12:00', 1)
 ----------------------------------------------------------------------------------------
+
+CREATE TABLE `medico_documentos` (
+  `id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `id_med` INT NOT NULL,
+  `tip_docum` varchar(50) NOT NULL,
+  `nom_docum` varchar(100) NOT NULL,
+  `id_sta` INT NOT NULL,
+  `fecha_registro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  
+  FOREIGN KEY (`id_med`) REFERENCES `medicos` (`id_user`),  
+  FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`)
+);
+----------------------------------------------------------------------------------------
+
+CREATE TABLE `serviciosafiliados` (
+  `id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `nom_servicio` varchar(100) NOT NULL,
+  `id_sta` INT NOT NULL,
+  `fecha_registro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+   
+  FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`)
+);
+INSERT INTO serviciosafiliados (nom_servicio, id_sta)VALUES
+('CONSULTA MEDICA', 1),
+('ENTREGA DE RESULTADOS', 1),
+('ATENCION PRIMARIA DE SALUD', 1),
+('AMBULATORIO', 1),
+('HOSPITALIZACION', 1),
+('EMERGENCIA', 1),
+('EXTENSION DE HOSPITALIZACION', 1)
+
+----------------------------------------------------------------------------------------
+

@@ -261,13 +261,17 @@ $('#add_hora').click(function(e){
             success: function(data){
               if(data == 1){
                 Swal.fire({
-                  title: '¡Éxito!',
+                  title: 'Registro Exitoso!',
                   text: '¡Horarios y Clinicas Agregados Correctamente!',
                   icon: 'success',
                   confirmButtonColor: "#007ebc",
                   confirmButtonText: 'Aceptar'
-                })
-                location.reload();
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.href = "perfil";
+                  }
+                });
+
               }
               if(data == 2){
                 Swal.fire({

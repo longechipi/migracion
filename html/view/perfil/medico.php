@@ -1,7 +1,7 @@
 <?php
 $a = "SELECT * FROM medicos WHERE id_user = $id_user";
 $ares = $mysqli->query($a);
-$row = $ares->fetch_array();
+$row_med = $ares->fetch_array();
 ?>
 <script src="../assets/js/funciones.js"></script>
 <div class="nav-align-top mb-4">
@@ -35,27 +35,27 @@ $row = $ares->fetch_array();
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="apellido1">Primer Apellido: </label>
-							<input type="text" name="apellido1" id="apellido1" value="<?php echo $row['apellido1']; ?>" class="form-control" style="text-transform:uppercase;" onkeypress="return letras(this, event);" required />
+							<input type="text" name="apellido1" id="apellido1" value="<?php echo $row_med['apellido1']; ?>" class="form-control" style="text-transform:uppercase;" onkeypress="return letras(this, event);" required />
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="apellido1">Segundo Apellido: </label>
-							<input type="text" name="apellido2" id="apellido2" value="<?php echo $row['apellido2']; ?>" class="form-control" style="text-transform:uppercase;" onkeypress="return letras(this, event);" />
+							<input type="text" name="apellido2" id="apellido2" value="<?php echo $row_med['apellido2']; ?>" class="form-control" style="text-transform:uppercase;" onkeypress="return letras(this, event);" />
 						</div>
 					</div>
 
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="nombre1">Primer Nombre: </label>
-							<input type="text" name="nombre1" id="nombre1" value="<?php echo $row['nombre1']; ?>" class="form-control" style="text-transform:uppercase;" onkeypress="return letras(this, event);" required />
+							<input type="text" name="nombre1" id="nombre1" value="<?php echo $row_med['nombre1']; ?>" class="form-control" style="text-transform:uppercase;" onkeypress="return letras(this, event);" required />
 						</div>
 					</div>
 
 					<div class="col-md-3 mb-4">
 						<div class="form-group">
 							<label for="mombre2">Segundo Nombre: </label>
-							<input type="text" name="nombre2" id="nombre2" value="<?php echo $row['nombre2']; ?>" class="form-control" style="text-transform:uppercase;" onkeypress="return letras(this, event);" required />
+							<input type="text" name="nombre2" id="nombre2" value="<?php echo $row_med['nombre2']; ?>" class="form-control" style="text-transform:uppercase;" onkeypress="return letras(this, event);" required />
 						</div>
 					</div>
 
@@ -67,7 +67,7 @@ $row = $ares->fetch_array();
 							<select class="form-select" id="tprif" name="tprif">
 								<?php
 								$opciones = ['N', 'J', 'G'];
-								$letra_rif = substr($row['rif'], 0, 1);
+								$letra_rif = substr($row_med['rif'], 0, 1);
 								foreach ($opciones as $opcion) {
 									if ($letra_rif != $opcion) {
 										echo '<option value="' . $opcion . '">' . $opcion . '</option>';
@@ -76,7 +76,7 @@ $row = $ares->fetch_array();
 								echo '<option value="' . $letra_rif . '" selected>' . $letra_rif . '</option>';
 								?>
 							</select>
-							<input type="text" name="rif" id="rif" value="<?php echo substr($row['rif'], 1); ?>" maxlength="9" minlength="9" class="form-control" onkeypress="return numeros(this, event);" required />
+							<input type="text" name="rif" id="rif" value="<?php echo substr($row_med['rif'], 1); ?>" maxlength="9" minlength="9" class="form-control" onkeypress="return numeros(this, event);" required />
 						</div>
 						<small>Colocar el Numero del Rif sin Guiones solo numero</small>
 					</div>
@@ -89,7 +89,7 @@ $row = $ares->fetch_array();
 						<select class="form-select" id="tpdoc" name="tpdoc">
 								<?php
 								$opciones = ['V', 'E', 'P'];
-								$valor = $row['nac'];
+								$valor = $row_med['nac'];
 								foreach ($opciones as $opcion) {
 									if ($valor != $opcion) {
 										echo '<option value="' . $opcion . '">' . $opcion . '</option>';
@@ -98,7 +98,7 @@ $row = $ares->fetch_array();
 								echo '<option value="' . $valor . '" selected>' . $valor . '</option>';
 								?>
 							</select>
-							<input type="text" name="cedula" id="cedula" minlength="6" maxlength="9" value="<?php echo $row['cedula']; ?>"class="form-control" onkeypress="return numeros(this, event);" required />
+							<input type="text" name="cedula" id="cedula" minlength="6" maxlength="9" value="<?php echo $row_med['cedula']; ?>"class="form-control" onkeypress="return numeros(this, event);" required />
 						</div>
 					</div>
 
@@ -106,14 +106,14 @@ $row = $ares->fetch_array();
 					<div class="col-md-2 mb-4">
 						<div class="form-group">
 							<label for="fnacimiento">Fec. Nac:</label>
-							<input type="date" name="fnacimiento" id="fnacimiento" value="<?php echo $row['fec_nac']; ?>" class="form-control mb-3" onblur="calcedad(this.value)" required/> 
+							<input type="date" name="fnacimiento" id="fnacimiento" value="<?php echo $row_med['fec_nac']; ?>" class="form-control mb-3" onblur="calcedad(this.value)" required/> 
 						</div>
 					</div>
 
 					<div class="col-md-1">
 						<div class="form-group">
 							<label for="edad">Edad:</label>
-							<input type="text" name="edad" id="edad" value="<?php echo $row['edad']; ?>" class="form-control" required readonly/>
+							<input type="text" name="edad" id="edad" value="<?php echo $row_med['edad']; ?>" class="form-control" required readonly/>
 						</div>
 					</div>
 
@@ -124,7 +124,7 @@ $row = $ares->fetch_array();
 								<?php
 								$a = $mysqli->query("SELECT id_sex, genero from sexo WHERE id_sta = 1");
 								while ($rowa = mysqli_fetch_array($a)) {
-									if ($rowa['id_sex'] == $row['idsex']) {
+									if ($rowa['id_sex'] == $row_med['idsex']) {
 										echo '<option value="' . $rowa['id_sex'] . '" selected>' . $rowa['genero'] . '</option>';
 									} else {
 										echo '<option value="' . $rowa['id_sex'] . '">' . $rowa['genero'] . '</option>';
@@ -141,7 +141,7 @@ $row = $ares->fetch_array();
 								<?php
 								$a = $mysqli->query("SELECT id_civ, civil from estadocivil WHERE id_sta = 1");
 								while ($rowa = mysqli_fetch_array($a)) {
-									if ($rowa['id_civ'] == $row['idcivil']) {
+									if ($rowa['id_civ'] == $row_med['idcivil']) {
 										echo '<option value="' . $rowa['id_civ'] . '" selected>' . $rowa['civil'] . '</option>';
 									} else {
 										echo '<option value="' . $rowa['id_civ'] . '">' . $rowa['civil'] . '</option>';
@@ -154,7 +154,7 @@ $row = $ares->fetch_array();
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="celular">Celular:</label>
-							<input type="text" name="celular" id="celular" value="<?php echo $row['celular']; ?>" maxlength="12" minlength="12" class="form-control" onkeypress="return numeros(this, event);" required />
+							<input type="text" name="celular" id="celular" value="<?php echo $row_med['celular']; ?>" maxlength="12" minlength="12" class="form-control" onkeypress="return numeros(this, event);" required />
 						</div>
 					</div>
 					<script>
@@ -169,7 +169,7 @@ $row = $ares->fetch_array();
 					<div class="col-md-3 mb-4">
 						<div class="form-group">
 							<label for="telefono">Teléfono:</label>
-							<input type="text" name="telefono" id="telefono" minlength="12" maxlength="12" value="<?php echo $row['telf']; ?>" class="form-control mb-3" onkeypress="return numeros(this, event);" />
+							<input type="text" name="telefono" id="telefono" minlength="12" maxlength="12" value="<?php echo $row_med['telf']; ?>" class="form-control mb-3" onkeypress="return numeros(this, event);" />
 						</div>
 					</div>
 					<script>
@@ -183,7 +183,7 @@ $row = $ares->fetch_array();
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="correo">Correo:</label>
-							<input type="email" name="correo" value="<?php echo $row['correo_pri']; ?>" id="correo" class="form-control" readonly>
+							<input type="email" name="correo" value="<?php echo $row_med['correo_pri']; ?>" id="correo" class="form-control" readonly>
 							<small class="mb-3">Por razones de seguridad el correo no se puede modificar</small>
 						</div>
 					</div>
@@ -191,7 +191,7 @@ $row = $ares->fetch_array();
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="correoalt">Correo Alterno:</label>
-							<input type="email" name="correoalt" value="<?php echo $row['correo2']; ?>" id="correo2" class="form-control mb-3"
+							<input type="email" name="correoalt" value="<?php echo $row_med['correo2']; ?>" id="correo2" class="form-control mb-3"
 								style="text-transform:lowercase;">
 						</div>
 					</div>
@@ -206,7 +206,7 @@ $row = $ares->fetch_array();
 								<?php
 								$a = $mysqli->query("SELECT id, pais FROM pais WHERE id_sta=1");
 								while ($rowa = mysqli_fetch_array($a)) {
-									if ($rowa['id'] == $row['idpais']) {
+									if ($rowa['id'] == $row_med['idpais']) {
 										echo '<option value="' . $rowa['id'] . '" selected>' . $rowa['pais'] . '</option>';
 									} else {
 										echo '<option value="' . $rowa['id'] . '">' . $rowa['pais'] . '</option>';
@@ -223,7 +223,7 @@ $row = $ares->fetch_array();
 								<?php
 								$a = $mysqli->query("SELECT id_estado, estado FROM estados WHERE idpais=1");
 								while ($rowa = mysqli_fetch_array($a)) {
-									if ($rowa['id_estado'] == $row['idestado']) {
+									if ($rowa['id_estado'] == $row_med['idestado']) {
 										echo '<option value="' . $rowa['id_estado'] . '" selected>' . $rowa['estado'] . '</option>';
 									} else {
 										echo '<option value="' . $rowa['id_estado'] . '">' . $rowa['estado'] . '</option>';
@@ -240,9 +240,9 @@ $row = $ares->fetch_array();
 							<label for="correo">Municipio:</label>
 							<select id="id_municipio" class="form-select" name="idmunicipio" >
 								<?php
-								$a = $mysqli->query("SELECT id_municipio, id_estado, municipio FROM municipios WHERE id_estado = ".$row['idestado']."");
+								$a = $mysqli->query("SELECT id_municipio, id_estado, municipio FROM municipios WHERE id_estado = ".$row_med['idestado']."");
 								while ($rowa = mysqli_fetch_array($a)) {
-									if ($rowa['id_municipio'] == $row['idmunicipio']) {
+									if ($rowa['id_municipio'] == $row_med['idmunicipio']) {
 										echo '<option value="' . $rowa['id_municipio'] . '" selected>' . $rowa['municipio'] . '</option>';
 									} else {
 										echo '<option value="' . $rowa['id_municipio'] . '">' . $rowa['municipio'] . '</option>';
@@ -257,9 +257,9 @@ $row = $ares->fetch_array();
 							<label for="correo">Parroquia:</label>
 							<select id="id_parroquia" class="form-select mb-3" name="idparroquia" >
 							<?php
-								$a = $mysqli->query("SELECT id_parroquia, id_municipio, parroquia FROM parroquias WHERE id_municipio = ".$row['idmunicipio']."");
+								$a = $mysqli->query("SELECT id_parroquia, id_municipio, parroquia FROM parroquias WHERE id_municipio = ".$row_med['idmunicipio']."");
 								while ($rowa = mysqli_fetch_array($a)) {
-									if ($rowa['id_parroquia'] == $row['idparroquia']) {
+									if ($rowa['id_parroquia'] == $row_med['idparroquia']) {
 										echo '<option value="' . $rowa['id_parroquia'] . '" selected>' . $rowa['parroquia'] . '</option>';
 									} else {
 										echo '<option value="' . $rowa['id_parroquia'] . '">' . $rowa['parroquia'] . '</option>';
@@ -274,7 +274,7 @@ $row = $ares->fetch_array();
 					<div class="col-md-12">
 						<div class="form-group">
 							<label for="direccion">Direccion de Habitación:</label>
-							<input type="text" name="direccion" style="text-transform:uppercase;" id="direccion" value="<?php echo $row['direccion']; ?>" class="form-control" required />
+							<input type="text" name="direccion" style="text-transform:uppercase;" id="direccion" value="<?php echo $row_med['direccion']; ?>" class="form-control" required />
 						</div>
 					</div>
 
@@ -423,7 +423,7 @@ $row = $ares->fetch_array();
 										confirmButtonText: 'Aceptar'
 									}).then((result) => {
 										if (result.isConfirmed) {
-											window.location.href = "perfil.php";
+											window.location.href = "perfil";
 										}
 									});
 								}else{
@@ -444,7 +444,7 @@ $row = $ares->fetch_array();
 		</div><!-- FIN PESTAÑA DE DATOS BANCARIOS -->
 
 				<!-- PESTAÑA DE DATOS DE ESPECIALIDADES -->
-				<div class="tab-pane fade" id="especialidades" role="tabpanel">
+		<div class="tab-pane fade" id="especialidades" role="tabpanel">
 			<div class="divider">
 				<div class="divider-text">Especialidades Médicas</div>
 			</div>
@@ -516,11 +516,10 @@ $row = $ares->fetch_array();
 				</thead>
 					<tbody>
 						<?php
-						$c = "SELECT MC.id, MC.id_cli, MC.id_med, C.nom_cli, MH.dia, MH.desde, MH.hasta 
-							FROM medico_clinicas MC
-							INNER JOIN clinicas C ON MC.id_cli = C.id_cli
-							INNER JOIN medico_horario MH ON MC.id_med = MH.id_med
-							WHERE MC.id_med = $id_user";
+						$c = "SELECT MH.id, MH.id_cli, MH.id_med, C.nom_cli, MH.dia, MH.desde, MH.hasta
+							FROM medico_horario MH
+							INNER JOIN clinicas C ON MH.id_cli = C.id_cli
+							WHERE MH.id_med =  $id_user";
 						 	$cres=$mysqli->query($c);
 							while ($rowc = $cres->fetch_array(MYSQLI_ASSOC)) {
 								$desde=date("g:iA", strtotime($rowc['desde']));
@@ -568,6 +567,17 @@ $row = $ares->fetch_array();
 						const id =arrdata[0];
 						const espe =arrdata[1];
 						document.getElementById("tblesp").insertRow(-1).innerHTML = '<tr><td>'+espe+'</td><td><button class="btn btn-primary" type="button" onclick="borrar('+id+')" id="del-'+id+'"><i class="fi fi-rr-delete-user"></i></button></td></tr>';
+						Swal.fire({
+							title: 'Actualización Exitosa!',
+							text: 'Agrego Correctamente la Especialidad',
+							icon: 'success',
+							confirmButtonColor: "#007ebc",
+							confirmButtonText: 'Aceptar'
+						}).then((result) => {
+							if (result.isConfirmed) {
+								window.location.href = "perfil";
+							}
+						});
 					}
 				});
 			});
@@ -590,17 +600,29 @@ $row = $ares->fetch_array();
 									}
 							}
 						}
+						Swal.fire({
+							title: 'Actualización Exitosa!',
+							text: 'Elimino Correctamente la Especialidad',
+							icon: 'success',
+							confirmButtonColor: "#007ebc",
+							confirmButtonText: 'Aceptar'
+						}).then((result) => {
+							if (result.isConfirmed) {
+								window.location.href = "perfil";
+							}
+						});
 					}
 				});
 			}
 
 			function borrarcli(id) {
-				const idmed = $("#idmed").val();
+				const idmed = $("#id_user").val();
 				$.ajax({
 					type: "POST",
 					url: "../model/perfil/medicos/del_cli.php",
 					data: { id: id, idmed: idmed },
 					success: function (data) {
+						console.log(data)
 						var tabla = document.getElementById("user2");
 						var filas = tabla.getElementsByTagName("tr");
 						for (var i = 0; i < filas.length; i++) {
@@ -613,6 +635,17 @@ $row = $ares->fetch_array();
 									}
 							}
 						}
+						Swal.fire({
+							title: 'Actualización Exitosa!',
+							text: 'Elimino Correctamente el Horario de Atención',
+							icon: 'success',
+							confirmButtonColor: "#007ebc",
+							confirmButtonText: 'Aceptar'
+						}).then((result) => {
+							if (result.isConfirmed) {
+								window.location.href = "perfil";
+							}
+						});
 					}
 				});
 			}
@@ -623,3 +656,231 @@ $row = $ares->fetch_array();
 			});
 		</script>
 		</div><!-- FIN PESTAÑA DE DATOS DE ESPECIALIDADES -->
+		<!-- PESTAÑA DE DATOS DE DOCUMENTOS -->
+		<div class="tab-pane fade" id="documentos" role="tabpanel">
+			<div class="divider">
+                <div class="divider-text">Documentación Médica</div>
+            </div>
+			<form enctype="multipart/form-data" action="../model/perfil/medicos/add_docu_med.php" method="post">
+				<input type="text" id="idmed_docu" name="idmed_docu" value="<?php echo $id_user; ?>" hidden/> 
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+						<label for="codcolmed">Código Colegio Médico</label>
+						<input type="text" name="codcolemed" id="codcolemed" value="<?php echo $row_med['cod_col_med']; ?>" class="form-control" required/>
+						</div>  
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+						<label for="codcolmed">MPSS</label>
+						<input type="text" name="mpsscod" id="mpsscod"  minlength="5" maxlength="5" value="<?php echo $row_med['mpss']; ?>" class="form-control mb-4" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;"  required/>
+						</div>  
+					</div>
+
+
+					<div class="col-md-3">
+						<label for="cedula">Cédula</label>
+						<div class="custom-file">
+						<input type="file" id="cedula" name="imagen" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf" required />
+						
+						</div>
+					</div>
+					<div class="col-md-3">
+					<label for="rif">RIF</label>
+						<div class="custom-file">
+						<input type="file" id="rif" name="imagen1" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf" required />
+						</div>
+					</div>
+					
+					<div class="col-md-3">
+					<label for="colemed">Carnet C.M.</label>
+						<div class="custom-file">
+						<input type="file" id="colemed" name="imagen2" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf" required />
+						</div>
+					</div>
+					<div class="col-md-3">
+					<label for="colemed">MPSS</label>
+						<div class="custom-file">
+							<input type="file" id="mpss" name="imagen3" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf" required />
+						</div>
+					</div>
+						<div class="row text-center">
+							<small class="text-danger">Formatos Permitidos: jpeg, png, jpg, webp, pdf</small>
+						</div>
+					<div class="text-center">
+						<button type="submit" class="btn btn-primary mt-4"><i class="fi fi-rs-cloud-upload"></i>&nbsp; Cargar</button>
+					</div>
+
+				</div>
+			</form>
+			<div class="table-responsive">
+				 <table class="table table-hover" id="user3" cellspacing="0" style="width: 100%;">
+					<thead>
+						<tr>
+							<th>Documento</th>
+							<th>Accion</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php 
+						$a = ("SELECT id, id_med, tip_docum, nom_docum 
+						FROM medico_documentos WHERE id_med='$id_user' AND tip_docum NOT IN ('firma', 'sello')");
+						$row=$mysqli->query($a);
+						while($rowdoc = mysqli_fetch_array($row)) { ?>
+						<tr>
+						<td>
+							
+						<a href="../upload/perfil_medico/<?php echo $rowdoc['nom_docum'];?>" data-lightbox="image-1" 
+						data-title="<?php echo "Documentacion del Doctor: ".$fullname; ?>"><?php echo $rowdoc['nom_docum']; ?></a>
+						</td>
+						<td align="center">
+							<button type="button" onclick="fdeldoc(<?php echo $rowdoc['id'];?>)" class="btn btn-primary btn-sm"><i class="fi fi-rr-delete-user"></i></button>
+							
+						</td>
+						</tr>
+					<?php } ?>
+
+					</tbody>
+
+				 </table>
+			</div>
+		<script>
+		function fdeldoc(id) {
+			const idmed = $("#idmed_docu").val();
+			$.ajax({
+				type: "POST",
+				url: "../model/perfil/medicos/del_docu_med.php",
+				data: { id: id, idmed: idmed },
+				success: function (data) {
+					console.log(data)
+					if(data == 1){
+						Swal.fire({
+							title: "Documento Eliminado",
+							text: "Elimino con Exito el Documento y el Registro seleccionado",
+							icon: "success",
+							confirmButtonColor: "#007ebc",
+							confirmButtonText: "Aceptar"
+						})
+						var tabla = document.getElementById("user3");
+						var filas = tabla.getElementsByTagName("tr");
+						for (var i = 0; i < filas.length; i++) {
+							var celdas = filas[i].getElementsByTagName("td");
+							if (celdas.length > 0) {
+								var boton = celdas[celdas.length - 1].getElementsByTagName("button")[0];
+									if (boton.getAttribute("onclick").includes(id)) {
+										tabla.deleteRow(i);
+										break;
+									}
+							}
+						}
+					}else{
+						Swal.fire({
+							icon: "error",
+							title: "Error al Eliminar",
+							text:"Ocurrio un error al Eliminar el Documento",
+							confirmButtonText: "Volver",
+							confirmButtonColor: "#005e43",
+						})
+					}
+					if(data == 3){
+						Swal.fire({
+							icon: "error",
+							title: "No se encuentra el documento",
+							text:"Ocurrio un error al Eliminar el Documento",
+							confirmButtonText: "Volver",
+							confirmButtonColor: "#005e43",
+							}).then(function() {
+								window.location.href = "../../../html/perfil.php";
+							});
+
+					}
+				}
+			});
+		}
+		</script>
+		</div><!-- FIN PESTAÑA DE DATOS DE DOCUMENTOS -->
+
+	<!-- PESTAÑA DE DATOS DE SERVICIOS -->
+	<div class="tab-pane fade" id="servicios" role="tabpanel">
+		<div class="divider">
+			<div class="divider-text">Servicios Afiliados</div>
+		</div>
+		<?php 
+		 	$sql = "SELECT id, nom_servicio, id_sta FROM serviciosafiliados where id_sta=1";
+		 	$result=$mysqli->query($sql);
+		// // busco imagenes de firma, si tiene 
+		// $sql = ("SELECT iddocument, idmed, imagen, quees FROM drdocument WHERE idmed='$idmed' AND quees='firma'; ");
+		// $obj=$mysqli->query($sql); 
+		// if($obj->num_rows > 0){
+		// 	$arr=$obj->fetch_array();
+		// 	$firmaimg=$arr['imagen'];
+		// }else{
+		// 	$firmaimg='';
+		// }
+		// // busco imagenes de sello, si tiene 
+		// $sql = ("SELECT iddocument, idmed, imagen, quees FROM drdocument WHERE idmed='$idmed' AND quees='sello'; ");
+		// $obj=$mysqli->query($sql); 
+		// 	if($obj->num_rows > 0){
+		// 	$arr=$obj->fetch_array();
+		// 	$selloimg=$arr['imagen'];
+		// }else{
+		// 	$selloimg='';
+		// }
+		?>
+		<div class="row">
+			<form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+				<input type="text" id="idmed" name="idmed" value="<?php echo $idmed; ?>" hidden>
+				<div style="text-align: left;">
+					<div class="row">
+					<?php //while($row = mysqli_fetch_array($result)) { 
+						// $sqlbusca="SELECT COUNT(*) as cant FROM convafixmedico WHERE idmed= '".$idmed."' and  idservaf = '".$row['idservaf']."'; ";
+						// $obj=$mysqli->query($sqlbusca);
+						// $arrlast=$obj->fetch_array();
+						// $cant=$arrlast[0];
+					?>
+						<div class="col-md-3">
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" value="" id="<?php //echo $row['idservaf'];?>"  onclick="fcheckafilia(this.id)" 
+								<?php //if ($cant!='0') { ?>
+								checked
+								<?php // } ?>
+								>
+								<label class="form-check-label" for="<?php //echo $row['idservaf'];?>">
+									<?php //echo $row['servicio'];?>
+								</label>
+							</div>
+						</div>
+					<?php // } ?>
+						
+					</div>
+				</div>
+
+				<div class="row mt-5">
+					<div class="col-md-6">
+						<h5>Firma:</h5>
+						<div class="custom-file">
+							<input type="file" id="firma" name="imagen" class="form-control" accept="image/png, image/jpeg" >  
+							<label id="firma" class="custom-file-label" for="firma"></label> 
+							<small style="color: red" >Formato permitido: Png/Jpg</small>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<h5>Sello:</h5>
+						<div class="custom-file">
+							<input type="file" id="sello" name="imagen1" class="form-control" accept="image/png, image/jpeg" >  
+							<label id="sello"  class="custom-file-label" for="sello"></label> 
+							<small style="color: red" >Formato permitido: Png/Jpg</small>
+						</div>
+					</div>
+					<!-- Imagenes -->
+					<div align="center" class="col-md-6">
+						<img class="img-fluid" src="<?php // echo $firmaimg ? "../upload/documentos_medicos/".$firmaimg : "../assets/img/elements/sinfoto.jpg"; ?>" alt="Sin Imagen Seleccionada!!!" class="img-fluid">
+					</div>
+					<div align="center" class="col-md-6">
+						<img class="img-fluid" src="<?php // echo $selloimg ? "../upload/documentos_medicos/".$selloimg : "../assets/img/elements/sinfoto.jpg"; ?>" alt="Sin Imagen Seleccionada!!!" class="img-fluid">
+					</div>
+				</div>
+
+			</form>
+		</div>

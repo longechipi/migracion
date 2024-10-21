@@ -5,9 +5,7 @@ require('../../../controller/log.php');
 $idespmed = $_POST['idespmed'];
 $idmed = $_POST['idmed'];
 
-
 $a="SELECT id_user, id_espe FROM medico_especialidad WHERE id_user = $idmed AND id_espe = $idespmed";
-echo $a;
 $ares=$mysqli->query($a); 
 $rowcounti=mysqli_num_rows($ares);
 if ($rowcounti>0) {
@@ -26,7 +24,6 @@ if ($rowcounti>0) {
     $rowc=mysqli_fetch_array($cres);
     //------ REGISTRO DE LOG -----//
     register_log($mysqli, $idmed,'CREO ESPECIALIDAD', 'PERFIL', 'USUARIO SE ASIGNO UNA NUEVA ESPECIALIDAD MEDICA CON ID: '.$idespmed.'');
-
     echo $rowc['id_espe'] .'-' .$rowc['especialidad'];
 }
 ?>

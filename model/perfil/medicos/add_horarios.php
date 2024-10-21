@@ -15,10 +15,16 @@ $pacxdia = trim($_POST['pacxdia']);
 $pacconseg = trim($_POST['pacconseg']);
 $pacsinseg = trim($_POST['pacsinseg']);
 
-
 $horariosJSON = $_POST['horarios'];
 $horarios = json_decode($horariosJSON, true);
 
+
+ //--------- INSERTO PRIMERO EN CLINICAS DONDE TRABAJA ---------//
+ $b="INSERT INTO medico_clinicas(id_cli, id_med, pac_dia, pac_aseg, 
+ pac_part, consul, piso, telf1, telf2, id_sta)
+ VALUES($idclinica, $idmed, $pacxdia, $pacconseg, $pacsinseg, '$consultorio', '$piso', '$telefono1', '$telefono2', 1 )";
+ $bres=$mysqli->query($b);
+ register_log($mysqli, $idmed,'REGISTRO CLINICA', 'PERFIL', 'USUARIO SE ASIGNO UNA CLINICA EN SU PERFIL DE TRABAJO CON ID: '.$idclinica.'');
 
 foreach ($horarios as $horario) {
     //------ VALIDA CLINICA Y HORARIO -------//
@@ -36,25 +42,16 @@ foreach ($horarios as $horario) {
         echo "2";
         exit;
     }else{
-            //--------- INSERTO PRIMERO EN CLINICAS DONDE TRABAJA ---------//
-            $b="INSERT INTO medico_clinicas(id_cli, id_med, pac_dia, pac_aseg, 
-            pac_part, consul, piso, telf1, telf2, id_sta)
-            VALUES($idclinica, $idmed, $pacxdia, $pacconseg, $pacsinseg, '$consultorio', '$piso', '$telefono1', '$telefono2', 1 )";
-            $bres=$mysqli->query($b);
 
-            //--------- INSERTO HORARIOS ---------//
-        foreach ($horarios as $horario) {
-            $c="INSERT INTO medico_horario(id_cli, id_med, dia, desde, hasta, id_sta)
-            VALUES ($idclinica, $idmed, '$dias','$desde','$hasta', 1); ";
-            $cres=$mysqli->query($c);
-        }
-        if ($cres) {
-            echo '1';
-        }else{
-            echo '0';
-        }
+        //--------- INSERTO HORARIOS ---------//
+        $c="INSERT INTO medico_horario(id_cli, id_med, dia, desde, hasta, id_sta)
+        VALUES ($idclinica, $idmed, '$dias','$desde','$hasta', 1)";
+        $cres=$mysqli->query($c);
+        register_log($mysqli, $idmed,'REGISTRO HORARIO', 'PERFIL', 'USUARIO SE ASIGNO UN NUEVO HORARIO EN LA CLINICA CON ID: '.$idclinica.' Y HORARIO: '.$dias .' - '. $desde.' - '.$desde);
+        
     }
 }
+echo "1";
 
 
 

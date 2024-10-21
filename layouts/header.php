@@ -77,6 +77,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/css/intlTelInput.css">
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/js/intlTelInput.min.js"></script>
 
-
+<link href="../libs/lightbox2/css/lightbox.css" rel="stylesheet" />
+<script src="../libs/lightbox2/js/lightbox.js"></script>
   </head>
   <body>
