@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-10-2024 a las 22:37:20
+-- Tiempo de generación: 21-10-2024 a las 13:20:40
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `paymedglobal`
+-- Base de datos: `paymed`
 --
 
 -- --------------------------------------------------------
@@ -590,7 +590,9 @@ CREATE TABLE `clinicas` (
 --
 
 INSERT INTO `clinicas` (`id_cli`, `rif`, `raz_social`, `nom_cli`, `descrip`, `id_tip`, `id_pro`, `idpais`, `idestado`, `idmunicipio`, `idparroquia`, `correo_pri`, `direccion`, `id_sta`, `fecha_registro`) VALUES
-(1, 'J941911221', 'CENTRO MEDICO DE CARACAS C.A', 'CENTRO MEDICO DE CARACAS C.A', 'CENTRO DE SALUD', 1, 1, 1, 24, 462, 112, 'INFO@CMEDICO.COM', 'AV. LOS ERASOS, PLAZA EL ESTANQUE SAN BERNARDINO', 1, '2024-10-18 20:12:59');
+(1, 'J941911221', 'CENTRO MEDICO DE CARACAS C.A', 'CENTRO MEDICO DE CARACAS C.A', 'CENTRO DE SALUD', 1, 1, 1, 24, 462, 112, 'INFO@CMEDICO.COM', 'AV. LOS ERASOS, PLAZA EL ESTANQUE SAN BERNARDINO', 1, '2024-10-18 20:12:59'),
+(2, 'J112345678', 'CLINICA SANTA PAULA', 'CLINICA SANTA PAULA', 'CLINICA PRIVADA TIPO A', 1, 1, 1, 24, 462, 112, 'ATENCION@CLINICASANTAPAULA.COM', 'AV LAS DELICIAS. CON CALLE PPAL EL CAFETAL', 1, '2024-10-19 20:55:34'),
+(3, 'J000121311', 'COMERCIAL CIENTIFICA C.A', 'CLINICA LA FLORESTA', 'CLINICA PRIVADA', 1, 1, 1, 24, 462, 112, 'CLINICA@CLINICALAFLORESTA.COM', 'CALLE PRINCIPAL LA FLORESTA EDIFICIO IMLF', 1, '2024-10-19 20:57:22');
 
 -- --------------------------------------------------------
 
@@ -767,7 +769,9 @@ INSERT INTO `logs` (`id`, `timestamp`, `id_user`, `action`, `module`, `details`,
 (18, '2024-10-18 18:23:10', 2, 'CREO ESPECIALIDAD', 'PERFIL', 'USUARIO SE ASIGNO UNA NUEVA ESPECIALIDAD MEDICA CON ID: 3', 'success'),
 (19, '2024-10-18 18:23:32', 2, 'ELIMINO ESPECIALIDAD', 'PERFIL', 'USUARIO SE ELIMINO UNA ESPECIALIDAD MEDICA CON ID: 1', 'success'),
 (20, '2024-10-18 18:27:55', 2, 'ELIMINO ESPECIALIDAD', 'PERFIL', 'USUARIO SE ELIMINO UNA ESPECIALIDAD MEDICA CON ID: 3', 'success'),
-(21, '2024-10-18 18:28:00', 2, 'CREO ESPECIALIDAD', 'PERFIL', 'USUARIO SE ASIGNO UNA NUEVA ESPECIALIDAD MEDICA CON ID: 1', 'success');
+(21, '2024-10-18 18:28:00', 2, 'CREO ESPECIALIDAD', 'PERFIL', 'USUARIO SE ASIGNO UNA NUEVA ESPECIALIDAD MEDICA CON ID: 1', 'success'),
+(22, '2024-10-19 20:30:29', 1, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
+(23, '2024-10-19 20:40:29', 2, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success');
 
 -- --------------------------------------------------------
 
@@ -837,7 +841,7 @@ CREATE TABLE `medico_clinicas` (
 --
 
 INSERT INTO `medico_clinicas` (`id`, `id_cli`, `id_med`, `pac_dia`, `pac_aseg`, `pac_part`, `consul`, `piso`, `telf1`, `telf2`, `id_sta`, `fecha_registro`) VALUES
-(1, 1, 2, 10, 2, 8, 'C-11', '2', '02126830000', '02126831111', 1, '2024-10-18 20:27:50');
+(1, 1, 2, 10, 2, 8, '10', '10', '04126017703', '04242974834', 1, '2024-10-20 00:20:19');
 
 -- --------------------------------------------------------
 
@@ -858,6 +862,30 @@ CREATE TABLE `medico_especialidad` (
 
 INSERT INTO `medico_especialidad` (`id`, `id_user`, `id_espe`, `id_sta`) VALUES
 (7, 2, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `medico_horario`
+--
+
+CREATE TABLE `medico_horario` (
+  `id` int(11) NOT NULL,
+  `id_cli` int(11) NOT NULL,
+  `id_med` int(11) NOT NULL,
+  `dia` varchar(50) NOT NULL,
+  `desde` time NOT NULL,
+  `hasta` time NOT NULL,
+  `id_sta` int(11) NOT NULL,
+  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `medico_horario`
+--
+
+INSERT INTO `medico_horario` (`id`, `id_cli`, `id_med`, `dia`, `desde`, `hasta`, `id_sta`, `fecha_registro`) VALUES
+(1, 1, 2, 'Lunes', '08:00:00', '13:00:00', 1, '2024-10-20 00:20:19');
 
 -- --------------------------------------------------------
 
@@ -2663,6 +2691,15 @@ ALTER TABLE `medico_especialidad`
   ADD KEY `id_sta` (`id_sta`);
 
 --
+-- Indices de la tabla `medico_horario`
+--
+ALTER TABLE `medico_horario`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_cli` (`id_cli`),
+  ADD KEY `id_med` (`id_med`),
+  ADD KEY `id_sta` (`id_sta`);
+
+--
 -- Indices de la tabla `municipios`
 --
 ALTER TABLE `municipios`
@@ -2760,7 +2797,7 @@ ALTER TABLE `ciudades`
 -- AUTO_INCREMENT de la tabla `clinicas`
 --
 ALTER TABLE `clinicas`
-  MODIFY `id_cli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_cli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `datos_bancarios_med`
@@ -2796,7 +2833,7 @@ ALTER TABLE `estatus`
 -- AUTO_INCREMENT de la tabla `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `medicos`
@@ -2815,6 +2852,12 @@ ALTER TABLE `medico_clinicas`
 --
 ALTER TABLE `medico_especialidad`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `medico_horario`
+--
+ALTER TABLE `medico_horario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `municipios`
@@ -2949,6 +2992,14 @@ ALTER TABLE `medico_especialidad`
   ADD CONSTRAINT `medico_especialidad_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`),
   ADD CONSTRAINT `medico_especialidad_ibfk_2` FOREIGN KEY (`id_espe`) REFERENCES `especialidades_med` (`id_espe`),
   ADD CONSTRAINT `medico_especialidad_ibfk_3` FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`);
+
+--
+-- Filtros para la tabla `medico_horario`
+--
+ALTER TABLE `medico_horario`
+  ADD CONSTRAINT `medico_horario_ibfk_1` FOREIGN KEY (`id_cli`) REFERENCES `clinicas` (`id_cli`),
+  ADD CONSTRAINT `medico_horario_ibfk_2` FOREIGN KEY (`id_med`) REFERENCES `medicos` (`id_user`),
+  ADD CONSTRAINT `medico_horario_ibfk_3` FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`);
 
 --
 -- Filtros para la tabla `municipios`
