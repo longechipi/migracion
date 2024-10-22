@@ -14,7 +14,7 @@
     <?php if ($estatus== 4) { ?> 
         <!-- Perfil -->
         <li class="menu-item">
-            <a href="javascript:void(0)" class="menu-link menu-toggle">
+            <a href="javascript:void(0)" class="menu-link menu-toggle"> 
                 <i class="menu-icon tf-icons bx bx-wrench"></i>
                 <div id="menu-hono" data-i18n="User interface">PERFIL</div>
             </a>
@@ -43,7 +43,7 @@
             echo 'active' . ' ' . 'open';
         } ?>">
             <a href="javascript:void(0)" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-wrench"></i>
+                <i class="menu-icon tf-icons bx bx-user"></i>
                 <div id="menu-hono" data-i18n="User interface">PERFIL</div>
             </a>
             <ul class="menu-sub">
@@ -51,29 +51,10 @@
                 <li class="menu-item 
                 <?php if ($host === "perfil.php") { echo 'active'; } ?>">
                     <a href="../html/perfil.php" id="sidebar-hono" class="menu-link empty">
-                        <div data-i18n="Accordion">Actualizar</div>
+                        <div data-i18n="Accordion">Datos Basicos</div>
                     </a>
                 </li>
-                <!-- Proveedores -->
-                <li class="menu-item">
-                    <a href="pages/forms/rpt_prov.php" id="sidebar-hono" class="menu-link empty">
-                        <div data-i18n="Accordion">Proveedores</div>
-                    </a>
-                </li>
-                <!-- Pacientes -->
-                <li class="menu-item 
-                <?php if ($host === "rpt_pacxmed.php") { echo 'active'; } ?>">
-                    <a href="../html/rpt_pacxmed.php" id="sidebar-hono" class="menu-link empty">
-                        <div data-i18n="Accordion">Pacientes</div>
-                    </a>
-                </li>
-                <!-- Asistente -->
-                <li class="menu-item 
-                <?php if ($host === "rpt_asixmed.php") { echo 'active'; } ?>">
-                    <a href="../html/rpt_asixmed.php" id="sidebar-hono" class="menu-link empty">
-                        <div data-i18n="Accordion">Asistente</div>
-                    </a>
-                </li>
+                
                 <!-- Horarios -->
                 <li class="menu-item 
                 <?php if ($host === "rpt_horar.php") { echo 'active'; } ?>">
@@ -92,8 +73,43 @@
             echo 'active' . ' ' . 'open';
         } ?>">
             <a href="javascript:void(0)" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-wrench"></i>
-                <div id="menu-hono" data-i18n="User interface">AGENDA</div>
+                <i class="menu-icon tf-icons bx bx-donate-heart"></i>
+                <div id="menu-hono" data-i18n="User interface">GESTION</div>
+            </a>
+            <ul class="menu-sub">
+                <!-- Proveedores -->
+                <li class="menu-item">
+                    <a href="pages/forms/rpt_prov.php" id="sidebar-hono" class="menu-link empty">
+                        <div data-i18n="Accordion">Materiales / Insumos</div>
+                    </a>
+                </li>
+                <!-- Pacientes -->
+                <li class="menu-item 
+                <?php if ($host === "rpt_pacxmed.php") { echo 'active'; } ?>">
+                    <a href="../html/rpt_pacxmed.php" id="sidebar-hono" class="menu-link empty">
+                        <div data-i18n="Accordion">Pacientes</div>
+                    </a>
+                </li>
+                <!-- Asistente -->
+                <li class="menu-item 
+                <?php if ($host === "rpt_asixmed.php") { echo 'active'; } ?>">
+                    <a href="../html/rpt_asixmed.php" id="sidebar-hono" class="menu-link empty">
+                        <div data-i18n="Accordion">Asistente</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!-- FIN SEGUNDO NIVEL -->
+
+        <!-- TERCER NIVEL -->
+        <li class="menu-item 
+        <?php
+        if (($host === "rpt_citpac.php") ||($host === "rpt_citas.php") ) {
+            echo 'active' . ' ' . 'open';
+        } ?>">
+            <a href="javascript:void(0)" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-calendar"></i>
+                <div id="menu-hono" data-i18n="User interface">CITAS MEDICAS</div>
             </a>
             <ul class="menu-sub">
                 <!-- Ver Citas -->
@@ -112,7 +128,11 @@
                 </li>
             </ul>
         </li>
-        <!-- FIN SEGUNDO NIVEL -->
+        <!-- FIN TERCER NIVEL -->
+
+        
+
+
 
         <!-- TERCER NIVEL -->
         <li class="menu-item 

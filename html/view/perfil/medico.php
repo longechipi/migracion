@@ -459,6 +459,10 @@ $row_med = $ares->fetch_array();
 				});
 			</script>
 
+			<div class="text-center mt-4">
+				<a href="javascript:history.back()" class="btn btn-outline-warning" rel="noopener noreferrer"><i class="fi fi-rr-undo"></i> VOLVER </a>
+			</div>
+
 		</div><!-- FIN PESTAÑA DE DATOS BANCARIOS -->
 
 				<!-- PESTAÑA DE DATOS DE ESPECIALIDADES -->
@@ -786,4 +790,7 @@ $row_med = $ares->fetch_array();
 			});
 		}
 		</script>
+		<div class="text-center mt-4">
+				<a href="javascript:history.back()" class="btn btn-outline-warning" rel="noopener noreferrer"><i class="fi fi-rr-undo"></i> VOLVER </a>
+			</div>
 		</div><!-- FIN PESTAÑA DE DATOS DE DOCUMENTOS -->
