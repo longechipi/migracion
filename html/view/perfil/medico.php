@@ -7,19 +7,16 @@ $row_med = $ares->fetch_array();
 <div class="nav-align-top mb-4">
 	<ul class="nav nav-pills mb-2" role="tablist">
 		<li class="nav-item">
-			<button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#datos" aria-controls="datos" aria-selected="true"> Datos Basicos </button>
+			<button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#datos" aria-controls="datos" aria-selected="true"><i class="fi fi-ts-user-pen"></i> &nbsp;Datos Basicos </button>
 		</li>
 		<li class="nav-item">
-			<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#bancos" aria-controls="bancos" aria-selected="false"> Datos Bancarios </button>
+			<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#bancos" aria-controls="bancos" aria-selected="false"> <i class="fi fi-ts-bank"></i> &nbsp;Datos Bancarios </button>
 		</li>
 		<li class="nav-item">
-			<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#especialidades" aria-controls="especialidades" aria-selected="false"> Especialidades </button>
+			<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#especialidades" aria-controls="especialidades" aria-selected="false"> <i class="fi fi-tr-hand-holding-medical"></i> &nbsp;Servicios y Especialidades </button>
 		</li>
 		<li class="nav-item">
-			<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#documentos" aria-controls="documentos" aria-selected="false"> Documentos </button>
-		</li>
-		<li class="nav-item">
-			<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#servicios" aria-controls="servicios" aria-selected="false"> Servicios Afiliados </button>
+			<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#documentos" aria-controls="documentos" aria-selected="false"><i class="fi fi-tr-add-document"></i> &nbsp; Documentos </button>
 		</li>
 	</ul>
 	<hr>
@@ -30,6 +27,7 @@ $row_med = $ares->fetch_array();
 				<input type="text" name="id_user" value="<?php echo $id_user; ?>" id="id_user" hidden/>
 				<div class="row"> <!--INICIO ROW 1 -->
 					<div class="divider">
+						
 						<div class="divider-text">Datos Personales</div>
 					</div>
 					<div class="col-md-3">
@@ -180,7 +178,7 @@ $row_med = $ares->fetch_array();
 						});
 					</script>
 
-					<div class="col-md-6">
+					<div class="col-md-3">
 						<div class="form-group">
 							<label for="correo">Correo:</label>
 							<input type="email" name="correo" value="<?php echo $row_med['correo_pri']; ?>" id="correo" class="form-control" readonly>
@@ -188,13 +186,28 @@ $row_med = $ares->fetch_array();
 						</div>
 					</div>
 
-					<div class="col-md-6">
+					<div class="col-md-3">
 						<div class="form-group">
 							<label for="correoalt">Correo Alterno:</label>
 							<input type="email" name="correoalt" value="<?php echo $row_med['correo2']; ?>" id="correo2" class="form-control mb-3"
 								style="text-transform:lowercase;">
 						</div>
 					</div>
+
+					<div class="col-md-3">
+						<div class="form-group">
+						<label for="codcolmed">N° Colegio Médico:</label>
+						<input type="text" name="codcolemed" id="codcolemed" value="<?php echo $row_med['cod_col_med']; ?>" class="form-control" required/>
+						</div>  
+					</div>
+
+					<div class="col-md-3">
+						<div class="form-group">
+						<label for="mpsscod">MPSS:</label>
+						<input type="text" name="mpsscod" id="mpsscod"  minlength="5" maxlength="5" value="<?php echo $row_med['mpss']; ?>" class="form-control mb-4" required/>
+						</div>  
+					</div>
+
 
 				</div> <!--FIN ROW 1 -->
 
@@ -347,9 +360,15 @@ $row_med = $ares->fetch_array();
 				<div class="divider">
 					<div class="divider-text">Cuentas Asociadas</div>
 				</div>
+			
+					<div class="text-center text-danger">
+						<p>Recuerde que tiene que tener al menos una Cuenta Activa para poder recibir Pagos</p>
+					</div>
+		
 				<div class="text-center">
 					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crear_cuenta">CREAR CUENTA</button>
 				</div>
+
 
 				<div class="table-responsive">
 					<table class="table table-hover" id="user" cellspacing="0" style="width: 100%;">
@@ -413,7 +432,6 @@ $row_med = $ares->fetch_array();
 							url: "../model/perfil/medicos/datos_bancarios.php",
 							data: $(this).serialize(),
 							success: function (data) {
-								console.log(data)
 								if(data == 1){
 									Swal.fire({
 										title: 'Actualización Exitosa!',
@@ -445,6 +463,39 @@ $row_med = $ares->fetch_array();
 
 				<!-- PESTAÑA DE DATOS DE ESPECIALIDADES -->
 		<div class="tab-pane fade" id="especialidades" role="tabpanel">
+			<div class="divider">
+				<div class="divider-text">Servicios Afiliados</div>
+			</div>
+			<?php 
+				$a = "SELECT id, nom_servicio, id_sta FROM serviciosafiliados where id_sta=1";
+				$res=$mysqli->query($a);
+			?>
+
+			<div style="text-align: left;">
+				<div class="row">
+				<?php while($row = mysqli_fetch_array($res)) { 
+					$b="SELECT COUNT(*) as cant FROM medico_serv_afil WHERE id_med= '$id_user' and id_ser = '".$row['id']."'; ";
+					$obj=$mysqli->query($b);
+					$arrlast=$obj->fetch_array();
+					$cant=$arrlast[0];
+				?>
+					<div class="col-md-3">
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="" id="<?php echo $row['id'];?>"  onclick="fcheckafilia(this.id)" 
+							<?php if ($cant!='0') { ?>
+							checked
+							<?php  } ?>
+							>
+							<label class="form-check-label" for="<?php echo $row['id'];?>">
+								<?php echo $row['nom_servicio'];?>
+							</label>
+						</div>
+					</div>
+				<?php  } ?>
+					
+				</div>
+			</div>
+
 			<div class="divider">
 				<div class="divider-text">Especialidades Médicas</div>
 			</div>
@@ -494,10 +545,10 @@ $row_med = $ares->fetch_array();
 					
 				</div>
 				</div> <!-- FIN DE ROW 2 -->
-				<div class="row"> 
-				<div class="divider">
-					<div class="divider-text">Horarios de Atención</div>
-				</div>
+			<div class="row"> 
+					<div class="divider">
+						<div class="divider-text">Horarios de Atención</div>
+					</div>
 				<div class="text-center mb-5">
 					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
 					<i class="fi fi-rs-disk"></i> Agregar Horarios de Atención
@@ -506,37 +557,34 @@ $row_med = $ares->fetch_array();
 				</div>
 				
 				<div class="table-responsive">
-				<table class="table table-hover" id="user2" cellspacing="0" style="width: 100%;">
-				<thead>
-					<tr>
-						<th>Clinica</th>
-						<th>Horario de Atención</th>
-						<th>Accion</th>
-					</tr>
-				</thead>
-					<tbody>
-						<?php
-						$c = "SELECT MH.id, MH.id_cli, MH.id_med, C.nom_cli, MH.dia, MH.desde, MH.hasta
-							FROM medico_horario MH
-							INNER JOIN clinicas C ON MH.id_cli = C.id_cli
-							WHERE MH.id_med =  $id_user";
-						 	$cres=$mysqli->query($c);
-							while ($rowc = $cres->fetch_array(MYSQLI_ASSOC)) {
-								$desde=date("g:iA", strtotime($rowc['desde']));
-								$hasta=date("g:iA", strtotime($rowc['hasta']));
-								echo '<tr>';
-									echo '<td>'.$rowc['nom_cli'].'</td>';
-									echo '<td>'.$rowc['dia'].' : '.$desde.'-'.$hasta.'</td>';
-									echo '<td><button class="btn btn-primary" type="button" onclick="borrarcli('.$rowc['id'].')" id="del-'.$rowc['id'].'"><i class="fi fi-rr-delete-user"></i></button></td>';
-								echo '</tr>';
-							}
-						?>
-				</table>
-
+					<table class="table table-hover" id="user2" cellspacing="0" style="width: 100%;">
+					<thead>
+						<tr>
+							<th>Clinica</th>
+							<th>Horario de Atención</th>
+							<th>Accion</th>
+						</tr>
+					</thead>
+						<tbody>
+							<?php
+							$c = "SELECT MH.id, MH.id_cli, MH.id_med, C.nom_cli, MH.dia, MH.desde, MH.hasta
+								FROM medico_horario MH
+								INNER JOIN clinicas C ON MH.id_cli = C.id_cli
+								WHERE MH.id_med =  $id_user";
+								$cres=$mysqli->query($c);
+								while ($rowc = $cres->fetch_array(MYSQLI_ASSOC)) {
+									$desde=date("g:iA", strtotime($rowc['desde']));
+									$hasta=date("g:iA", strtotime($rowc['hasta']));
+									echo '<tr>';
+										echo '<td>'.$rowc['nom_cli'].'</td>';
+										echo '<td>'.$rowc['dia'].' : '.$desde.'-'.$hasta.'</td>';
+										echo '<td><button class="btn btn-primary" type="button" onclick="borrarcli('.$rowc['id'].')" id="del-'.$rowc['id'].'"><i class="fi fi-rr-delete-user"></i></button></td>';
+									echo '</tr>';
+								}
+							?>
+					</table>
 				</div>
-
-
-				</div>
+			</div>
 		
 			<div class="text-center mt-4">
 				<a href="javascript:history.back()" class="btn btn-outline-warning" rel="noopener noreferrer">
@@ -552,7 +600,6 @@ $row_med = $ares->fetch_array();
 					url: "../model/perfil/medicos/datos_especialidades.php",
 					data: { idespmed: idespmed, idmed: idmed },
 					success: function (data) {
-						console.log(data)
 						if(data == 2){
 							Swal.fire({
 								title: 'Error!',
@@ -581,75 +628,7 @@ $row_med = $ares->fetch_array();
 					}
 				});
 			});
-			function borrar(id) {
-				const idmed = $("#id_user").val();
-				$.ajax({
-					type: "POST",
-					url: "../model/perfil/medicos/del_espe.php",
-					data: { id: id, idmed: idmed },
-					success: function (data) {
-						var tabla = document.getElementById("tblesp");
-						var filas = tabla.getElementsByTagName("tr");
-						for (var i = 0; i < filas.length; i++) {
-							var celdas = filas[i].getElementsByTagName("td");
-							if (celdas.length > 0) {
-								var boton = celdas[celdas.length - 1].getElementsByTagName("button")[0];
-									if (boton.getAttribute("onclick").includes(id)) {
-										tabla.deleteRow(i);
-										break;
-									}
-							}
-						}
-						Swal.fire({
-							title: 'Actualización Exitosa!',
-							text: 'Elimino Correctamente la Especialidad',
-							icon: 'success',
-							confirmButtonColor: "#007ebc",
-							confirmButtonText: 'Aceptar'
-						}).then((result) => {
-							if (result.isConfirmed) {
-								window.location.href = "perfil";
-							}
-						});
-					}
-				});
-			}
-
-			function borrarcli(id) {
-				const idmed = $("#id_user").val();
-				$.ajax({
-					type: "POST",
-					url: "../model/perfil/medicos/del_cli.php",
-					data: { id: id, idmed: idmed },
-					success: function (data) {
-						console.log(data)
-						var tabla = document.getElementById("user2");
-						var filas = tabla.getElementsByTagName("tr");
-						for (var i = 0; i < filas.length; i++) {
-							var celdas = filas[i].getElementsByTagName("td");
-							if (celdas.length > 0) {
-								var boton = celdas[celdas.length - 1].getElementsByTagName("button")[0];
-									if (boton.getAttribute("onclick").includes(id)) {
-										tabla.deleteRow(i);
-										break;
-									}
-							}
-						}
-						Swal.fire({
-							title: 'Actualización Exitosa!',
-							text: 'Elimino Correctamente el Horario de Atención',
-							icon: 'success',
-							confirmButtonColor: "#007ebc",
-							confirmButtonText: 'Aceptar'
-						}).then((result) => {
-							if (result.isConfirmed) {
-								window.location.href = "perfil";
-							}
-						});
-					}
-				});
-			}
-
+			
 			$('#idespmed').select2({
 				theme: 'bootstrap-5',
 				width: '100%',
@@ -663,56 +642,60 @@ $row_med = $ares->fetch_array();
             </div>
 			<form enctype="multipart/form-data" action="../model/perfil/medicos/add_docu_med.php" method="post">
 				<input type="text" id="idmed_docu" name="idmed_docu" value="<?php echo $id_user; ?>" hidden/> 
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-						<label for="codcolmed">Código Colegio Médico</label>
-						<input type="text" name="codcolemed" id="codcolemed" value="<?php echo $row_med['cod_col_med']; ?>" class="form-control" required/>
-						</div>  
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-						<label for="codcolmed">MPSS</label>
-						<input type="text" name="mpsscod" id="mpsscod"  minlength="5" maxlength="5" value="<?php echo $row_med['mpss']; ?>" class="form-control mb-4" onKeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;"  required/>
-						</div>  
-					</div>
-
-
-					<div class="col-md-3">
-						<label for="cedula">Cédula</label>
+				<div class="row mb-4">
+					<div class="col-md-4">
+						<label for="cedula">Cédula:</label>
 						<div class="custom-file">
-						<input type="file" id="cedula" name="imagen" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf" required />
-						
+						<input type="file" id="cedula" name="cedula" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf" onchange="validarArchivo(this)" />
 						</div>
 					</div>
-					<div class="col-md-3">
-					<label for="rif">RIF</label>
+					<div class="col-md-4">
+					<label for="rif">RIF:</label>
 						<div class="custom-file">
-						<input type="file" id="rif" name="imagen1" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf" required />
+						<input type="file" id="rif" name="rif" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf"  onchange="validarArchivo(this)" />
 						</div>
 					</div>
 					
-					<div class="col-md-3">
-					<label for="colemed">Carnet C.M.</label>
+					<div class="col-md-4">
+					<label for="colemed">Carnet C.M:</label>
 						<div class="custom-file">
-						<input type="file" id="colemed" name="imagen2" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf" required />
+						<input type="file" id="colemed" name="colemed" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf" onchange="validarArchivo(this)" />
 						</div>
 					</div>
-					<div class="col-md-3">
-					<label for="colemed">MPSS</label>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-md-4">
+					<label for="colemed">MPSS:</label>
 						<div class="custom-file">
-							<input type="file" id="mpss" name="imagen3" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf" required />
+							<input type="file" id="mpss" name="mpss" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf" onchange="validarArchivo(this)" />
 						</div>
 					</div>
-						<div class="row text-center">
-							<small class="text-danger">Formatos Permitidos: jpeg, png, jpg, webp, pdf</small>
+
+					<div class="col-md-4">
+					<label for="colemed">Firma:</label>
+						<div class="custom-file">
+							<input type="file" id="firma" name="firma" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf" onchange="validarArchivo(this)" />  
 						</div>
-					<div class="text-center">
-						<button type="submit" class="btn btn-primary mt-4"><i class="fi fi-rs-cloud-upload"></i>&nbsp; Cargar</button>
+					</div>
+
+					<div class="col-md-4">
+					<label for="colemed">Sello:</label>
+						<div class="custom-file">
+							<input type="file" id="sello" name="sello" class="form-control" accept="image/jpeg, image/png, image/jpg, image/webp, application/pdf" onchange="validarArchivo(this)" />  
+						</div>
 					</div>
 
 				</div>
+						<div class="row text-center mt-3">
+							<small class="text-danger">Formatos Permitidos: jpeg, png, jpg, webp, pdf</small> <br>
+							<small class="text-danger">Peso Maximo de Carga: 2MB</small>
+						</div>
+					<div class="text-center">
+						<button type="submit" value="enviar" class="btn btn-primary mt-4"><i class="fi fi-rs-cloud-upload"></i>&nbsp; Cargar</button>
+					</div>
+
+				
 			</form>
 			<div class="table-responsive">
 				 <table class="table table-hover" id="user3" cellspacing="0" style="width: 100%;">
@@ -724,15 +707,20 @@ $row_med = $ares->fetch_array();
 					</thead>
 					<tbody>
 						<?php 
-						$a = ("SELECT id, id_med, tip_docum, nom_docum 
-						FROM medico_documentos WHERE id_med='$id_user' AND tip_docum NOT IN ('firma', 'sello')");
+						$a = "SELECT id, id_med, tip_docum, nom_docum 
+						FROM medico_documentos WHERE id_med='$id_user'";
 						$row=$mysqli->query($a);
-						while($rowdoc = mysqli_fetch_array($row)) { ?>
+						while($rowdoc = mysqli_fetch_array($row)) { 
+							$extension = pathinfo($rowdoc['nom_docum'], PATHINFO_EXTENSION);?>
 						<tr>
 						<td>
-							
-						<a href="../upload/perfil_medico/<?php echo $rowdoc['nom_docum'];?>" data-lightbox="image-1" 
-						data-title="<?php echo "Documentacion del Doctor: ".$fullname; ?>"><?php echo $rowdoc['nom_docum']; ?></a>
+							<?php 
+							if ($extension === 'pdf') {
+								echo '<a href="../upload/perfil_medico/' . $rowdoc['nom_docum'] . '" target="_blank">Ver PDF</a>';
+							}else{
+								echo '<a href="../upload/perfil_medico/' . $rowdoc['nom_docum'] . '" data-lightbox="image-1" data-title="' . "Documentacion del Doctor: " . $fullname . '">' . $rowdoc['nom_docum'] . '</a>';
+							}?>
+						
 						</td>
 						<td align="center">
 							<button type="button" onclick="fdeldoc(<?php echo $rowdoc['id'];?>)" class="btn btn-primary btn-sm"><i class="fi fi-rr-delete-user"></i></button>
@@ -753,11 +741,10 @@ $row_med = $ares->fetch_array();
 				url: "../model/perfil/medicos/del_docu_med.php",
 				data: { id: id, idmed: idmed },
 				success: function (data) {
-					console.log(data)
 					if(data == 1){
 						Swal.fire({
 							title: "Documento Eliminado",
-							text: "Elimino con Exito el Documento y el Registro seleccionado",
+							text: "Elimino con Exito el Documento Seleccionado",
 							icon: "success",
 							confirmButtonColor: "#007ebc",
 							confirmButtonText: "Aceptar"
@@ -780,7 +767,7 @@ $row_med = $ares->fetch_array();
 							title: "Error al Eliminar",
 							text:"Ocurrio un error al Eliminar el Documento",
 							confirmButtonText: "Volver",
-							confirmButtonColor: "#005e43",
+							confirmButtonColor: "#007ebc",
 						})
 					}
 					if(data == 3){
@@ -789,7 +776,7 @@ $row_med = $ares->fetch_array();
 							title: "No se encuentra el documento",
 							text:"Ocurrio un error al Eliminar el Documento",
 							confirmButtonText: "Volver",
-							confirmButtonColor: "#005e43",
+							confirmButtonColor: "#007ebc",
 							}).then(function() {
 								window.location.href = "../../../html/perfil.php";
 							});
@@ -800,87 +787,3 @@ $row_med = $ares->fetch_array();
 		}
 		</script>
 		</div><!-- FIN PESTAÑA DE DATOS DE DOCUMENTOS -->
-
-	<!-- PESTAÑA DE DATOS DE SERVICIOS -->
-	<div class="tab-pane fade" id="servicios" role="tabpanel">
-		<div class="divider">
-			<div class="divider-text">Servicios Afiliados</div>
-		</div>
-		<?php 
-		 	$sql = "SELECT id, nom_servicio, id_sta FROM serviciosafiliados where id_sta=1";
-		 	$result=$mysqli->query($sql);
-		// // busco imagenes de firma, si tiene 
-		// $sql = ("SELECT iddocument, idmed, imagen, quees FROM drdocument WHERE idmed='$idmed' AND quees='firma'; ");
-		// $obj=$mysqli->query($sql); 
-		// if($obj->num_rows > 0){
-		// 	$arr=$obj->fetch_array();
-		// 	$firmaimg=$arr['imagen'];
-		// }else{
-		// 	$firmaimg='';
-		// }
-		// // busco imagenes de sello, si tiene 
-		// $sql = ("SELECT iddocument, idmed, imagen, quees FROM drdocument WHERE idmed='$idmed' AND quees='sello'; ");
-		// $obj=$mysqli->query($sql); 
-		// 	if($obj->num_rows > 0){
-		// 	$arr=$obj->fetch_array();
-		// 	$selloimg=$arr['imagen'];
-		// }else{
-		// 	$selloimg='';
-		// }
-		?>
-		<div class="row">
-			<form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-				<input type="text" id="idmed" name="idmed" value="<?php echo $idmed; ?>" hidden>
-				<div style="text-align: left;">
-					<div class="row">
-					<?php //while($row = mysqli_fetch_array($result)) { 
-						// $sqlbusca="SELECT COUNT(*) as cant FROM convafixmedico WHERE idmed= '".$idmed."' and  idservaf = '".$row['idservaf']."'; ";
-						// $obj=$mysqli->query($sqlbusca);
-						// $arrlast=$obj->fetch_array();
-						// $cant=$arrlast[0];
-					?>
-						<div class="col-md-3">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" value="" id="<?php //echo $row['idservaf'];?>"  onclick="fcheckafilia(this.id)" 
-								<?php //if ($cant!='0') { ?>
-								checked
-								<?php // } ?>
-								>
-								<label class="form-check-label" for="<?php //echo $row['idservaf'];?>">
-									<?php //echo $row['servicio'];?>
-								</label>
-							</div>
-						</div>
-					<?php // } ?>
-						
-					</div>
-				</div>
-
-				<div class="row mt-5">
-					<div class="col-md-6">
-						<h5>Firma:</h5>
-						<div class="custom-file">
-							<input type="file" id="firma" name="imagen" class="form-control" accept="image/png, image/jpeg" >  
-							<label id="firma" class="custom-file-label" for="firma"></label> 
-							<small style="color: red" >Formato permitido: Png/Jpg</small>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<h5>Sello:</h5>
-						<div class="custom-file">
-							<input type="file" id="sello" name="imagen1" class="form-control" accept="image/png, image/jpeg" >  
-							<label id="sello"  class="custom-file-label" for="sello"></label> 
-							<small style="color: red" >Formato permitido: Png/Jpg</small>
-						</div>
-					</div>
-					<!-- Imagenes -->
-					<div align="center" class="col-md-6">
-						<img class="img-fluid" src="<?php // echo $firmaimg ? "../upload/documentos_medicos/".$firmaimg : "../assets/img/elements/sinfoto.jpg"; ?>" alt="Sin Imagen Seleccionada!!!" class="img-fluid">
-					</div>
-					<div align="center" class="col-md-6">
-						<img class="img-fluid" src="<?php // echo $selloimg ? "../upload/documentos_medicos/".$selloimg : "../assets/img/elements/sinfoto.jpg"; ?>" alt="Sin Imagen Seleccionada!!!" class="img-fluid">
-					</div>
-				</div>
-
-			</form>
-		</div>

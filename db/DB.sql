@@ -315,3 +315,16 @@ INSERT INTO serviciosafiliados (nom_servicio, id_sta)VALUES
 
 ----------------------------------------------------------------------------------------
 
+CREATE TABLE `medico_serv_afil` (
+  `id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `id_med` INT NOT NULL,
+  `id_ser` INT NOT NULL,
+  `id_sta` INT NOT NULL,
+  `fecha_registro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  
+  FOREIGN KEY (`id_med`) REFERENCES `medicos` (`id_user`),
+  FOREIGN KEY (`id_ser`) REFERENCES `serviciosafiliados` (`id`),  
+  FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`)
+);
+ INSERT INTO medico_serv_afil(id_med, id_ser, id_sta)VALUES(2, 1, 1)
+ ----------------------------------------------------------------------------------------

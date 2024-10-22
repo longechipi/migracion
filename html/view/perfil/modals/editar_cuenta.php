@@ -146,8 +146,6 @@ $('#banco').submit(function (e) {
         contentType: false,
         processData: false,
         success: function (data) {
-            console.log(data)
-
             if (data == 1) {
                 Swal.fire({
                     title: 'Actualización Exitosa!',

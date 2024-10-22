@@ -28,8 +28,11 @@ $idestado = trim($_POST['idestado']);
 $idmunicipio = trim($_POST['idmunicipio']);
 $idparroquia = trim($_POST['idparroquia']);
 $direccion = strtoupper(trim($_POST['direccion']));
+$cod_col_med = trim($_POST['codcolemed']);
+$mpss = trim($_POST['mpsscod']);
 
-$a="UPDATE medicos SET nombre1='$nombre1', nombre2='$nombre2', apellido1='$apellido1', apellido2='$apellido2', rif='$rif_comp', fec_nac='$fnacimiento',edad='$edad',idsex='$idsexo', idcivil='$idestcivil',celular='$celular',telf='$telefono',correo_pri='$correo',correo2='$correoalt',idpais='$idpais',idestado='$idestado',idmunicipio='$idmunicipio',idparroquia='$idparroquia',direccion='$direccion' WHERE id_user = $id_user";
+$a="UPDATE medicos SET nombre1='$nombre1', nombre2='$nombre2', apellido1='$apellido1', apellido2='$apellido2', rif='$rif_comp', fec_nac='$fnacimiento',edad='$edad',idsex='$idsexo', idcivil='$idestcivil',celular='$celular',telf='$telefono',correo_pri='$correo',correo2='$correoalt',idpais='$idpais',idestado='$idestado',idmunicipio='$idmunicipio',idparroquia='$idparroquia',direccion='$direccion', cod_col_med = '$cod_col_med', mpss = '$mpss' 
+WHERE id_user = $id_user";
 $ares=$mysqli->query($a);
     if($ares){
         register_log($mysqli, $id_user,'ACTUALIZO DATOS', 'PERFIL', 'USUARIO ACTUALIZO INFORMACION DE DATOS BASICOS');
