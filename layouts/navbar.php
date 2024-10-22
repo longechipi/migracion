@@ -8,7 +8,7 @@
   <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
     <!-- Identidad -->
     <div class="navbar-nav align-items-center">
-      <div class="nav-item d-flex align-items-center"><strong>Bienvenido </strong><?php echo ($privilegios == 6) ? "<strong>Doctor: &nbsp; </strong>" . $fullname : "&nbsp;" . $fullname;?></div>
+      <div class="nav-item d-flex align-items-center"><strong>Bienvenido </strong><?php echo ($privilegios == 6) ? "<strong>&nbsp;Doctor: &nbsp; </strong>" . $fullname : "&nbsp;" . $fullname;?></div>
     </div>
     <!-- /Identidad -->
     <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -68,7 +68,7 @@
             <div class="dropdown-divider"></div>
           </li>
           <li>
-            <a class="dropdown-item" href="../auth/salir.php">
+            <a class="dropdown-item" href="../html/salir.php">
               <i class="bx bx-power-off me-2"></i>
               <span class="align-middle">Salir</span>
             </a>

@@ -328,3 +328,61 @@ CREATE TABLE `medico_serv_afil` (
 );
  INSERT INTO medico_serv_afil(id_med, id_ser, id_sta)VALUES(2, 1, 1)
  ----------------------------------------------------------------------------------------
+ CREATE TABLE `consecutivos` (
+  `ano` int NOT NULL,
+  `num_historia` BIGINT NOT NULL,
+  `id_sta` INT NOT NULL,
+  FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`)
+);
+INSERT INTO consecutivos(ano, num_historia, id_sta)VALUES(2024, 2400000, 1)
+ ----------------------------------------------------------------------------------------
+ CREATE TABLE `pacientes` (
+  `id_pac` INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  `id_reg` INT NOT NULL,
+  `nac` varchar(1) NOT NULL,
+  `cedula` INT(10) NOT NULL UNIQUE,
+  `nombre1` varchar(100) NOT NULL,
+  `nombre2` varchar(100) NULL,
+  `apellido1` varchar(100) NOT NULL,
+  `apellido2` varchar(100) NULL,
+  `fec_nac` DATE NOT NULL,
+  `edad` INT NOT NULL,
+  `menor` INT NOT NULL,
+  `id_sex` INT NOT NULL, 
+  `id_civ` INT NOT NULL, 
+  `num_his` BIGINT NOT NULL, 
+  `correo` varchar(100) NOT NULL UNIQUE,
+  `celular` varchar(15) NOT NULL,
+  `telf` varchar(15) NULL,
+  `idpais` INT NULL,
+  `idestado` INT NULL,
+  `idmunicipio` INT NULL,
+  `idparroquia` INT NULL,
+  `direccion` TEXT NULL,
+  `id_sta` INT NOT NULL,
+  `fecha_registro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+
+  FOREIGN KEY (`id_reg`) REFERENCES `users` (`id_user`),
+  FOREIGN KEY (`id_sex`) REFERENCES `sexo` (`id_sex`), 
+  FOREIGN KEY (`id_civ`) REFERENCES `estadocivil` (`id_civ`)
+);
+
+INSERT INTO pacientes(id_reg, nac, cedula, nombre1, nombre2, apellido1, apellido2, fec_nac, edad, menor, 
+id_sex, id_civ, num_his, correo, celular, telf, idpais, idestado, idmunicipio, idparroquia,
+direccion, id_sta)VALUES(2, 'V', '17976262', 'MAYERLING', 'NATHALI', 'JIMENEZ', 'JIMENEZ', '26-06-1986', 38, 0, 
+2, 1, 2400001, 'maye@gmail.com', '04126017703', '02126830000', 1, 24, 462, 112, 
+'FUERTE TIUNA EL VALLE', 1)
+ ----------------------------------------------------------------------------------------
+ CREATE TABLE `paciente_medico` (
+  `id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `id_pac` INT NOT NULL,
+  `id_med` INT NOT NULL,
+  `id_sta` INT NOT NULL,
+  `fecha_registro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  
+  FOREIGN KEY (`id_med`) REFERENCES `medicos` (`id_user`),
+  FOREIGN KEY (`id_pac`) REFERENCES `pacientes` (`id_pac`),  
+  FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`)
+);
+INSERT INTO paciente_medico(id_pac, id_med, id_sta)VALUES(1, 2, 1)
+ ----------------------------------------------------------------------------------------
