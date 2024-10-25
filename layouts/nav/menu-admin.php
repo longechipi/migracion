@@ -8,42 +8,46 @@ $host = basename($_SERVER['PHP_SELF']);
     </li>
     <!-- INICIO -->
     <li class="menu-item 
-        <?php if ($host === "index.php") { echo 'active'; } ?>">
-            <a href="../html/index2.php" class="menu-link">
+        <?php if ($host === "inicio") { echo 'active'; } ?>">
+            <a href="../html/inicio" class="menu-link">
                 <i class="menu-icon tf-icons fi fi-rr-house-chimney"></i>
                 <div data-i18n="Analytics">INICIO</div>
             </a>
     </li>
     <!-- PRIMER NIVEL -->
     <li class="menu-item 
-        <?php
-        if (($host === "rpt_team.php")) {
-            echo 'active' . ' ' . 'open';
-        } ?>">
-        
+        <?php if (($host === "usuarios.php") || ($host === "reg_usuario.php") || ($host === "privilegios.php") || ($host === "reg_privilegio.php") || ($host === "privilegios.php") || ($host === "edit_usuario.php")) 
+        { echo 'active' . ' ' . 'open'; } ?>">
     <a href="javascript:void(0)" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons fi fi-rr-user-pen"></i>
-        <div id="menu-hono" data-i18n="User interface">USUARIOS</div>
+        <div id="menu-hono" data-i18n="User interface">USUARIOS </div>
     </a>
         <ul class="menu-sub">
-            <!-- Usr Clinicas -->
+            <!-- Usuarios -->
             <li class="menu-item 
-                <?php if ($host === "rpt_team.php") {
-                    echo 'active';
-                } ?>">
-                <!-- <a href="pages/forms/rpt_uclin.php" id="sidebar-hono" class="menu-link empty"> -->
-                <a href="../html/rpt_team.php" id="sidebar-hono" class="menu-link empty">
+                <?php if ($host === "usuarios") { echo 'active'; } ?>">
+                <a href="../html/usuarios" id="sidebar-hono" class="menu-link empty">
                     <div data-i18n="Accordion">Usuarios</div>
                 </a>
             </li>
-           
-            <!-- Usr Medicos -->
-            <li class="menu-item">
-                <!-- <a href="pages/forms/rpt_team.php" id="sidebar-hono" class="menu-link empty"> -->
-                <a href="../html/rpt_team.php" id="sidebar-hono" class="menu-link empty">
+
+            <!-- Privilegios -->
+            <li class="menu-item"
+                <?php if ($host === "privilegios") { echo 'active'; } ?>">
+                <a href="../html/privilegios" id="sidebar-hono" class="menu-link empty">
+                    <div data-i18n="Accordion">Privilegios</div>
+                </a>
+            </li>
+
+            <!-- Perfiles -->
+            <li class="menu-item"
+                <?php if ($host === "perfiles") { echo 'active'; } ?>">
+                <a href="../html/perfiles.php" id="sidebar-hono" class="menu-link empty">
                     <div data-i18n="Accordion">Perfiles</div>
                 </a>
             </li>
+
+            
         </ul>
     </li>
     <!-- FIN PRIMER NIVEL -->
@@ -51,7 +55,7 @@ $host = basename($_SERVER['PHP_SELF']);
     <!-- SEGUNDO NIVEL -->
     <li class="menu-item 
         <?php
-        if (($host === "rpt_clin.php") || ($host === "rpt_prov.php")|| ($host === "rpt_seg.php") || ($host === "rpt_med.php") || ($host === "rpt_presupuestos.php") || ($host === "rpt_pacxmed.php") ) {
+        if (($host === "clinicas.php") || ($host === "rpt_prov.php")|| ($host === "rpt_seg.php") || ($host === "rpt_med.php") || ($host === "rpt_presupuestos.php") || ($host === "rpt_pacxmed.php") ) {
             echo 'active' . ' ' . 'open';
         } ?>">
         <a href="javascript:void(0)" class="menu-link menu-toggle">
@@ -61,10 +65,10 @@ $host = basename($_SERVER['PHP_SELF']);
         <ul class="menu-sub">
             <!-- Clinicas -->
             <li class="menu-item 
-                <?php if ($host === "rpt_clin.php") {
+                <?php if ($host === "clinicas") {
                     echo 'active';
                 } ?>">
-                <a href="../html/rpt_clin.php" id="sidebar-hono" class="menu-link empty">
+                <a href="../html/clinicas" id="sidebar-hono" class="menu-link empty">
                     <div data-i18n="Accordion">Clinicas</div>
                 </a>
             </li>

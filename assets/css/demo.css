@@ -260,11 +260,12 @@ i.fi.fi-rs-refresh {
 
 input:read-only {
   background-color: rgb(223, 223, 223);
-  cursor: auto;
+  cursor: no-drop;
 }
 
 input:read-only:focus {
-  cursor: auto;
+  background-color: rgb(223, 223, 223);
+  cursor: no-drop;
 }
 
 .card-body.admin {

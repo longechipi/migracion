@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2024 a las 13:20:40
+-- Tiempo de generación: 25-10-2024 a las 22:51:57
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `paymed`
+-- Base de datos: `paymedglobal`
 --
 
 -- --------------------------------------------------------
@@ -597,6 +597,25 @@ INSERT INTO `clinicas` (`id_cli`, `rif`, `raz_social`, `nom_cli`, `descrip`, `id
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `consecutivos`
+--
+
+CREATE TABLE `consecutivos` (
+  `ano` int(11) NOT NULL,
+  `num_historia` bigint(20) NOT NULL,
+  `id_sta` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `consecutivos`
+--
+
+INSERT INTO `consecutivos` (`ano`, `num_historia`, `id_sta`) VALUES
+(2024, 2400001, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `datos_bancarios_med`
 --
 
@@ -749,29 +768,37 @@ CREATE TABLE `logs` (
 --
 
 INSERT INTO `logs` (`id`, `timestamp`, `id_user`, `action`, `module`, `details`, `status`) VALUES
-(1, '2024-10-18 16:33:18', 2, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
-(2, '2024-10-18 16:43:15', 2, 'ACTUALIZO DATOS', 'PERFIL', 'USUARIO ACTUALIZO INFORMACION DE DATOS BASICOS', 'success'),
-(3, '2024-10-18 16:44:25', 2, 'CREACION CUENTA', 'PERFIL', 'USUARIO CREO UNA NUEVA CUENTA BANCARIA', 'success'),
-(4, '2024-10-18 16:44:45', 2, 'CREACION CUENTA', 'PERFIL', 'USUARIO CREO UNA NUEVA CUENTA BANCARIA', 'success'),
-(5, '2024-10-18 16:44:53', 2, 'CAMBIO STATUS', 'PERFIL', 'USUARIO CAMBIO ESTATUS DE A: CUENTA DESACTIVADA', 'success'),
-(6, '2024-10-18 16:45:00', 2, 'CAMBIO STATUS', 'PERFIL', 'USUARIO INTENTO CAMBIAR ESTATUS DE CUENTA, SE REVERSA POR CUENTAS INACTIVAS', 'success'),
-(7, '2024-10-18 16:45:07', 2, 'CAMBIO STATUS', 'PERFIL', 'USUARIO CAMBIO ESTATUS DE A: CUENTA ACTIVADA', 'success'),
-(8, '2024-10-18 16:46:37', 2, 'CAMBIO STATUS', 'PERFIL', 'USUARIO CAMBIO ESTATUS DE A: CUENTA DESACTIVADA', 'success'),
-(9, '2024-10-18 16:46:45', 2, 'CAMBIO STATUS', 'PERFIL', 'USUARIO CAMBIO ESTATUS DE A: CUENTA ACTIVADA', 'success'),
-(10, '2024-10-18 16:47:50', 2, 'CAMBIO STATUS', 'PERFIL', 'USUARIO CAMBIO ESTATUS DE A: CUENTA DESACTIVADA', 'success'),
-(11, '2024-10-18 16:47:57', 2, 'CAMBIO STATUS', 'PERFIL', 'USUARIO INTENTO CAMBIAR ESTATUS DE CUENTA, SE REVERSA POR CUENTAS INACTIVAS', 'success'),
-(12, '2024-10-18 16:48:10', 2, 'CAMBIO STATUS', 'PERFIL', 'USUARIO CAMBIO ESTATUS DE A: CUENTA ACTIVADA', 'success'),
-(13, '2024-10-18 18:09:49', 2, 'CREO ESPECIALIDAD', 'PERFIL', 'USUARIO MEDICO SE ASIGNO UNA NUEVA ESPECIALIDAD MEDICA', 'success'),
-(14, '2024-10-18 18:11:58', 2, 'CREO ESPECIALIDAD', 'PERFIL', 'USUARIO SE ASIGNO UNA NUEVA ESPECIALIDAD MEDICA 3', 'success'),
-(15, '2024-10-18 18:18:00', 2, 'CREO ESPECIALIDAD', 'PERFIL', 'USUARIO SE ASIGNO UNA NUEVA ESPECIALIDAD MEDICA CON ID: 3', 'success'),
-(16, '2024-10-18 18:19:18', 2, 'CREO ESPECIALIDAD', 'PERFIL', 'USUARIO SE ASIGNO UNA NUEVA ESPECIALIDAD MEDICA CON ID: 2', 'success'),
-(17, '2024-10-18 18:20:10', 2, 'ELIMINO ESPECIALIDAD', 'PERFIL', 'USUARIO SE ELIMINO UNA ESPECIALIDAD MEDICA CON ID: ', 'success'),
-(18, '2024-10-18 18:23:10', 2, 'CREO ESPECIALIDAD', 'PERFIL', 'USUARIO SE ASIGNO UNA NUEVA ESPECIALIDAD MEDICA CON ID: 3', 'success'),
-(19, '2024-10-18 18:23:32', 2, 'ELIMINO ESPECIALIDAD', 'PERFIL', 'USUARIO SE ELIMINO UNA ESPECIALIDAD MEDICA CON ID: 1', 'success'),
-(20, '2024-10-18 18:27:55', 2, 'ELIMINO ESPECIALIDAD', 'PERFIL', 'USUARIO SE ELIMINO UNA ESPECIALIDAD MEDICA CON ID: 3', 'success'),
-(21, '2024-10-18 18:28:00', 2, 'CREO ESPECIALIDAD', 'PERFIL', 'USUARIO SE ASIGNO UNA NUEVA ESPECIALIDAD MEDICA CON ID: 1', 'success'),
-(22, '2024-10-19 20:30:29', 1, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
-(23, '2024-10-19 20:40:29', 2, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success');
+(1, '2024-10-22 16:52:41', 2, 'ACTUALIZO DATOS', 'PERFIL', 'USUARIO SUBIO UN ARCHIVO DE TIPO: CEDULA', 'success'),
+(2, '2024-10-22 16:59:09', 2, 'ELIMINO DOCUMENTO', 'PERFIL', 'USUARIO ELIMINO UN DOCUMENTO DE TIPO: CEDULA', 'success'),
+(3, '2024-10-22 17:02:22', 2, 'ACTUALIZO DATOS', 'PERFIL', 'USUARIO SUBIO UN ARCHIVO DE TIPO: CEDULA', 'success'),
+(4, '2024-10-22 17:12:55', 2, 'ACTUALIZO DATOS', 'PERFIL', 'USUARIO SUBIO UN ARCHIVO DE TIPO: RIF', 'success'),
+(5, '2024-10-22 17:12:55', 2, 'ACTUALIZO DATOS', 'PERFIL', 'USUARIO SUBIO UN ARCHIVO DE TIPO: COL_MED', 'success'),
+(6, '2024-10-22 17:12:55', 2, 'ACTUALIZO DATOS', 'PERFIL', 'USUARIO SUBIO UN ARCHIVO DE TIPO: MPSS', 'success'),
+(7, '2024-10-22 17:12:55', 2, 'ACTUALIZO DATOS', 'PERFIL', 'USUARIO SUBIO UN ARCHIVO DE TIPO: FIRMA', 'success'),
+(8, '2024-10-22 17:12:55', 2, 'ACTUALIZO DATOS', 'PERFIL', 'USUARIO SUBIO UN ARCHIVO DE TIPO: SELLO', 'success'),
+(9, '2024-10-22 17:17:29', 2, 'AGREGO SERVICIO', 'PERFIL', 'USUARIO AGREGO UN SERVICIO ASOCIADO CON ID: 4', 'success'),
+(10, '2024-10-22 17:17:43', 2, 'CREO ESPECIALIDAD', 'PERFIL', 'USUARIO SE ASIGNO UNA NUEVA ESPECIALIDAD MEDICA CON ID: 3', 'success'),
+(11, '2024-10-22 17:26:32', 2, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
+(12, '2024-10-22 17:35:18', 2, 'REGISTRO CLINICA', 'PERFIL', 'USUARIO SE ASIGNO UNA CLINICA EN SU PERFIL DE TRABAJO CON ID: 2', 'success'),
+(13, '2024-10-22 17:35:28', 2, 'REGISTRO CLINICA', 'PERFIL', 'USUARIO SE ASIGNO UNA CLINICA EN SU PERFIL DE TRABAJO CON ID: 2', 'success'),
+(14, '2024-10-22 17:35:28', 2, 'REGISTRO HORARIO', 'PERFIL', 'USUARIO SE ASIGNO UN NUEVO HORARIO EN LA CLINICA CON ID: 2 Y HORARIO: Martes - 08:00 - 08:00', 'success'),
+(15, '2024-10-22 17:39:38', 2, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
+(16, '2024-10-22 19:32:53', 1, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
+(17, '2024-10-22 19:33:11', 2, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
+(18, '2024-10-24 18:02:25', 2, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
+(19, '2024-10-24 18:06:25', 2, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
+(20, '2024-10-25 17:25:54', 1, 'OLVIDO CONTRASEÑA', 'INICIO', 'USUARIO OLVIDO CONTRASEÑA Y PIDIO CAMBIO CON EL CORREO castilloacostajean@gmail.com', 'success'),
+(21, '2024-10-25 17:30:24', 1, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
+(22, '2024-10-25 17:30:58', 1, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
+(23, '2024-10-25 17:31:22', 1, 'OLVIDO CONTRASEÑA', 'INICIO', 'USUARIO OLVIDO CONTRASEÑA Y PIDIO CAMBIO CON EL CORREO castilloacostajean@gmail.com', 'success'),
+(24, '2024-10-25 17:32:36', 1, 'OLVIDO CONTRASEÑA', 'INICIO', 'USUARIO OLVIDO CONTRASEÑA Y PIDIO CAMBIO CON EL CORREO castilloacostajean@gmail.com', 'success'),
+(25, '2024-10-25 17:33:32', 1, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
+(26, '2024-10-25 17:33:45', 2, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
+(27, '2024-10-25 17:42:20', 1, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
+(28, '2024-10-25 18:51:36', 1, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
+(29, '2024-10-25 20:43:35', 1, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
+(30, '2024-10-25 20:45:28', 1, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success'),
+(31, '2024-10-25 20:47:16', 1, 'LOGIN', 'AUTH', 'USUARIO ENTRO AL SISTEMA', 'success');
 
 -- --------------------------------------------------------
 
@@ -789,7 +816,7 @@ CREATE TABLE `medicos` (
   `apellido1` varchar(100) NOT NULL,
   `apellido2` varchar(100) DEFAULT NULL,
   `rif` varchar(12) NOT NULL,
-  `cod_col_med` int(11) DEFAULT NULL,
+  `cod_col_med` varchar(40) DEFAULT NULL,
   `mpss` int(11) DEFAULT NULL,
   `fec_nac` date NOT NULL,
   `edad` int(11) NOT NULL,
@@ -813,7 +840,7 @@ CREATE TABLE `medicos` (
 --
 
 INSERT INTO `medicos` (`id`, `id_user`, `nac`, `cedula`, `nombre1`, `nombre2`, `apellido1`, `apellido2`, `rif`, `cod_col_med`, `mpss`, `fec_nac`, `edad`, `idsex`, `idcivil`, `celular`, `telf`, `correo_pri`, `correo2`, `idpais`, `idestado`, `idmunicipio`, `idparroquia`, `direccion`, `id_sta`, `fecha_registro`) VALUES
-(1, 2, 'V', 11197801, 'KATRINS', 'HAIDY', 'ARVELO', 'CRESPO', 'J111978014', 987877000, 98987, '1981-05-24', 41, 1, 1, '04242974834', '02126834798', 'harvelo@armisglobal.com', 'harvelo@armisglobal.com', 1, 24, 462, 1117, 'EL PARAISO NUEVO 1', 1, '2024-10-18 16:43:04');
+(1, 2, 'V', 11197801, 'KATRINS', 'HAIDY', 'ARVELO', 'CRESPO', 'J111978014', '77777777', 66666, '1981-05-24', 41, 1, 1, '04242974834', '02126834798', 'harvelo@armisglobal.com', 'harvelo@armisglobal.com', 1, 24, 462, 1117, 'EL PARAISO NUEVO 1', 1, '2024-10-18 16:43:04');
 
 -- --------------------------------------------------------
 
@@ -841,7 +868,36 @@ CREATE TABLE `medico_clinicas` (
 --
 
 INSERT INTO `medico_clinicas` (`id`, `id_cli`, `id_med`, `pac_dia`, `pac_aseg`, `pac_part`, `consul`, `piso`, `telf1`, `telf2`, `id_sta`, `fecha_registro`) VALUES
-(1, 1, 2, 10, 2, 8, '10', '10', '04126017703', '04242974834', 1, '2024-10-20 00:20:19');
+(6, 1, 2, 5, 2, 3, '1212', '10', '04242943741', '04222555555', 1, '2024-10-21 13:21:39'),
+(8, 2, 2, 5, 1, 4, '8000', '3', '04242974834', '04126017703', 1, '2024-10-22 17:35:18'),
+(9, 2, 2, 5, 1, 4, '8000', '3', '04242974834', '04126017703', 1, '2024-10-22 17:35:28');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `medico_documentos`
+--
+
+CREATE TABLE `medico_documentos` (
+  `id` int(11) NOT NULL,
+  `id_med` int(11) NOT NULL,
+  `tip_docum` varchar(50) NOT NULL,
+  `nom_docum` varchar(100) NOT NULL,
+  `id_sta` int(11) NOT NULL,
+  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `medico_documentos`
+--
+
+INSERT INTO `medico_documentos` (`id`, `id_med`, `tip_docum`, `nom_docum`, `id_sta`, `fecha_registro`) VALUES
+(24, 2, 'CEDULA', 'CI-11197801-2024-10-22.jpg', 1, '2024-10-22 17:02:22'),
+(25, 2, 'RIF', 'RIF-11197801-2024-10-22.jpg', 1, '2024-10-22 17:12:55'),
+(26, 2, 'COL_MED', 'COL_MED-11197801-2024-10-22.png', 1, '2024-10-22 17:12:55'),
+(27, 2, 'MPSS', 'MPSS-11197801-2024-10-22.jpg', 1, '2024-10-22 17:12:55'),
+(28, 2, 'FIRMA', 'FIRMA-11197801-2024-10-22.jpg', 1, '2024-10-22 17:12:55'),
+(29, 2, 'SELLO', 'SELLO-11197801-2024-10-22.jpg', 1, '2024-10-22 17:12:55');
 
 -- --------------------------------------------------------
 
@@ -861,7 +917,8 @@ CREATE TABLE `medico_especialidad` (
 --
 
 INSERT INTO `medico_especialidad` (`id`, `id_user`, `id_espe`, `id_sta`) VALUES
-(7, 2, 1, 1);
+(7, 2, 1, 1),
+(13, 2, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -885,7 +942,30 @@ CREATE TABLE `medico_horario` (
 --
 
 INSERT INTO `medico_horario` (`id`, `id_cli`, `id_med`, `dia`, `desde`, `hasta`, `id_sta`, `fecha_registro`) VALUES
-(1, 1, 2, 'Lunes', '08:00:00', '13:00:00', 1, '2024-10-20 00:20:19');
+(6, 1, 2, 'Lunes', '09:00:00', '12:00:00', 1, '2024-10-21 13:21:39'),
+(8, 2, 2, 'Martes', '08:00:00', '12:00:00', 1, '2024-10-22 17:35:28');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `medico_serv_afil`
+--
+
+CREATE TABLE `medico_serv_afil` (
+  `id` int(11) NOT NULL,
+  `id_med` int(11) NOT NULL,
+  `id_ser` int(11) NOT NULL,
+  `id_sta` int(11) NOT NULL,
+  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `medico_serv_afil`
+--
+
+INSERT INTO `medico_serv_afil` (`id`, `id_med`, `id_ser`, `id_sta`, `fecha_registro`) VALUES
+(1, 2, 1, 1, '2024-10-22 12:38:43'),
+(4, 2, 4, 1, '2024-10-22 17:17:29');
 
 -- --------------------------------------------------------
 
@@ -1239,6 +1319,67 @@ INSERT INTO `municipios` (`id_municipio`, `id_estado`, `municipio`) VALUES
 (460, 23, 'Sucre'),
 (461, 23, 'Valmore Rodríguez'),
 (462, 24, 'Libertador');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pacientes`
+--
+
+CREATE TABLE `pacientes` (
+  `id_pac` int(11) NOT NULL,
+  `id_reg` int(11) NOT NULL,
+  `nac` varchar(1) NOT NULL,
+  `cedula` int(10) NOT NULL,
+  `nombre1` varchar(100) NOT NULL,
+  `nombre2` varchar(100) DEFAULT NULL,
+  `apellido1` varchar(100) NOT NULL,
+  `apellido2` varchar(100) DEFAULT NULL,
+  `fec_nac` date NOT NULL,
+  `edad` int(11) NOT NULL,
+  `menor` int(11) NOT NULL,
+  `id_sex` int(11) NOT NULL,
+  `id_civ` int(11) NOT NULL,
+  `num_his` bigint(20) NOT NULL,
+  `correo` varchar(100) NOT NULL,
+  `celular` varchar(15) NOT NULL,
+  `telf` varchar(15) DEFAULT NULL,
+  `idpais` int(11) DEFAULT NULL,
+  `idestado` int(11) DEFAULT NULL,
+  `idmunicipio` int(11) DEFAULT NULL,
+  `idparroquia` int(11) DEFAULT NULL,
+  `direccion` text DEFAULT NULL,
+  `id_sta` int(11) NOT NULL,
+  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pacientes`
+--
+
+INSERT INTO `pacientes` (`id_pac`, `id_reg`, `nac`, `cedula`, `nombre1`, `nombre2`, `apellido1`, `apellido2`, `fec_nac`, `edad`, `menor`, `id_sex`, `id_civ`, `num_his`, `correo`, `celular`, `telf`, `idpais`, `idestado`, `idmunicipio`, `idparroquia`, `direccion`, `id_sta`, `fecha_registro`) VALUES
+(1, 2, 'V', 17976262, 'MAYERLING', 'NATHALI', 'JIMENEZ', 'JIMENEZ', '1986-06-26', 38, 0, 2, 1, 2400001, 'maye@gmail.com', '04126017703', '02126830000', 1, 24, 462, 112, 'FUERTE TIUNA EL VALLE', 1, '2024-10-22 19:23:00');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `paciente_medico`
+--
+
+CREATE TABLE `paciente_medico` (
+  `id` int(11) NOT NULL,
+  `id_pac` int(11) NOT NULL,
+  `id_med` int(11) NOT NULL,
+  `id_sta` int(11) NOT NULL,
+  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `paciente_medico`
+--
+
+INSERT INTO `paciente_medico` (`id`, `id_pac`, `id_med`, `id_sta`, `fecha_registro`) VALUES
+(1, 1, 2, 1, '2024-10-22 19:38:40');
 
 -- --------------------------------------------------------
 
@@ -2424,22 +2565,49 @@ INSERT INTO `parroquias` (`id_parroquia`, `id_municipio`, `parroquia`) VALUES
 
 CREATE TABLE `privilegios` (
   `id_pri` int(11) NOT NULL,
-  `nom_pri` varchar(50) NOT NULL
+  `nom_pri` varchar(50) NOT NULL,
+  `id_sta` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `privilegios`
 --
 
-INSERT INTO `privilegios` (`id_pri`, `nom_pri`) VALUES
-(1, 'ADMINISTRADOR'),
-(2, 'GERENTE'),
-(3, 'TECNICO'),
-(4, 'USUARIO'),
-(5, 'VISITANTE'),
-(6, 'MEDICO'),
-(7, 'ASISTENTE'),
-(8, 'PACIENTE');
+INSERT INTO `privilegios` (`id_pri`, `nom_pri`, `id_sta`) VALUES
+(1, 'ADMINISTRADOR', 1),
+(2, 'GERENTE', 1),
+(3, 'TECNICO', 1),
+(4, 'USUARIO', 1),
+(5, 'VISITANTE', 1),
+(6, 'MEDICO', 1),
+(7, 'ASISTENTE', 1),
+(8, 'PACIENTE', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `serviciosafiliados`
+--
+
+CREATE TABLE `serviciosafiliados` (
+  `id` int(11) NOT NULL,
+  `nom_servicio` varchar(100) NOT NULL,
+  `id_sta` int(11) NOT NULL,
+  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `serviciosafiliados`
+--
+
+INSERT INTO `serviciosafiliados` (`id`, `nom_servicio`, `id_sta`, `fecha_registro`) VALUES
+(1, 'CONSULTA MEDICA', 1, '2024-10-21 19:58:42'),
+(2, 'ENTREGA DE RESULTADOS', 1, '2024-10-21 19:58:42'),
+(3, 'ATENCION PRIMARIA DE SALUD', 1, '2024-10-21 19:58:42'),
+(4, 'AMBULATORIO', 1, '2024-10-21 19:58:42'),
+(5, 'HOSPITALIZACION', 1, '2024-10-21 19:58:42'),
+(6, 'EMERGENCIA', 1, '2024-10-21 19:58:42'),
+(7, 'EXTENSION DE HOSPITALIZACION', 1, '2024-10-21 19:58:42');
 
 -- --------------------------------------------------------
 
@@ -2545,7 +2713,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `nombre`, `apellido`, `usuario`, `clave`, `fecha_registro`) VALUES
-(1, 'JEAN', 'CASTILLO', 'castilloacostajean@gmail.com', '$2y$10$RV3CunrlwW9Ebb9gzhCM5OdTGN7BeDuH9KB73IjP4uzXzq.GkvgKy', '2024-10-18 16:07:18'),
+(1, 'JEAN', 'CASTILLO', 'castilloacostajean@gmail.com', '$2y$10$mKhVr8EbNj0d4fem30BhkO4dwAfR7ZLJqiNlcurKTEhsqJS869Doy', '2024-10-18 16:07:18'),
 (2, 'KATRINS', 'ARVELO', 'harvelo@armisglobal.com', '$2y$10$bDsucfBu0yYoSWMscjXWOuyQPzp8Ssfnr7MKqhb6d03ZhN4xYE1Ca', '2024-10-18 16:31:21');
 
 -- --------------------------------------------------------
@@ -2586,7 +2754,7 @@ CREATE TABLE `users_status` (
 
 INSERT INTO `users_status` (`id_usta`, `id_user`, `id_sta`) VALUES
 (1, 1, 1),
-(2, 2, 4);
+(2, 2, 1);
 
 --
 -- Índices para tablas volcadas
@@ -2615,6 +2783,12 @@ ALTER TABLE `clinicas`
   ADD UNIQUE KEY `correo_pri` (`correo_pri`),
   ADD KEY `id_tip` (`id_tip`),
   ADD KEY `id_pro` (`id_pro`),
+  ADD KEY `id_sta` (`id_sta`);
+
+--
+-- Indices de la tabla `consecutivos`
+--
+ALTER TABLE `consecutivos`
   ADD KEY `id_sta` (`id_sta`);
 
 --
@@ -2682,6 +2856,14 @@ ALTER TABLE `medico_clinicas`
   ADD KEY `id_sta` (`id_sta`);
 
 --
+-- Indices de la tabla `medico_documentos`
+--
+ALTER TABLE `medico_documentos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_med` (`id_med`),
+  ADD KEY `id_sta` (`id_sta`);
+
+--
 -- Indices de la tabla `medico_especialidad`
 --
 ALTER TABLE `medico_especialidad`
@@ -2700,11 +2882,40 @@ ALTER TABLE `medico_horario`
   ADD KEY `id_sta` (`id_sta`);
 
 --
+-- Indices de la tabla `medico_serv_afil`
+--
+ALTER TABLE `medico_serv_afil`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_med` (`id_med`),
+  ADD KEY `id_ser` (`id_ser`),
+  ADD KEY `id_sta` (`id_sta`);
+
+--
 -- Indices de la tabla `municipios`
 --
 ALTER TABLE `municipios`
   ADD PRIMARY KEY (`id_municipio`),
   ADD KEY `id_estado` (`id_estado`);
+
+--
+-- Indices de la tabla `pacientes`
+--
+ALTER TABLE `pacientes`
+  ADD PRIMARY KEY (`id_pac`),
+  ADD UNIQUE KEY `cedula` (`cedula`),
+  ADD UNIQUE KEY `correo` (`correo`),
+  ADD KEY `id_reg` (`id_reg`),
+  ADD KEY `id_sex` (`id_sex`),
+  ADD KEY `id_civ` (`id_civ`);
+
+--
+-- Indices de la tabla `paciente_medico`
+--
+ALTER TABLE `paciente_medico`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_med` (`id_med`),
+  ADD KEY `id_pac` (`id_pac`),
+  ADD KEY `id_sta` (`id_sta`);
 
 --
 -- Indices de la tabla `pais`
@@ -2724,7 +2935,15 @@ ALTER TABLE `parroquias`
 -- Indices de la tabla `privilegios`
 --
 ALTER TABLE `privilegios`
-  ADD PRIMARY KEY (`id_pri`);
+  ADD PRIMARY KEY (`id_pri`),
+  ADD KEY `fk_privilegios_estatus` (`id_sta`);
+
+--
+-- Indices de la tabla `serviciosafiliados`
+--
+ALTER TABLE `serviciosafiliados`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_sta` (`id_sta`);
 
 --
 -- Indices de la tabla `sexo`
@@ -2833,7 +3052,7 @@ ALTER TABLE `estatus`
 -- AUTO_INCREMENT de la tabla `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `medicos`
@@ -2845,25 +3064,49 @@ ALTER TABLE `medicos`
 -- AUTO_INCREMENT de la tabla `medico_clinicas`
 --
 ALTER TABLE `medico_clinicas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de la tabla `medico_documentos`
+--
+ALTER TABLE `medico_documentos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `medico_especialidad`
 --
 ALTER TABLE `medico_especialidad`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `medico_horario`
 --
 ALTER TABLE `medico_horario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `medico_serv_afil`
+--
+ALTER TABLE `medico_serv_afil`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `municipios`
 --
 ALTER TABLE `municipios`
   MODIFY `id_municipio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=463;
+
+--
+-- AUTO_INCREMENT de la tabla `pacientes`
+--
+ALTER TABLE `pacientes`
+  MODIFY `id_pac` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `paciente_medico`
+--
+ALTER TABLE `paciente_medico`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `pais`
@@ -2882,6 +3125,12 @@ ALTER TABLE `parroquias`
 --
 ALTER TABLE `privilegios`
   MODIFY `id_pri` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `serviciosafiliados`
+--
+ALTER TABLE `serviciosafiliados`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `sexo`
@@ -2950,6 +3199,12 @@ ALTER TABLE `clinicas`
   ADD CONSTRAINT `clinicas_ibfk_3` FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`);
 
 --
+-- Filtros para la tabla `consecutivos`
+--
+ALTER TABLE `consecutivos`
+  ADD CONSTRAINT `consecutivos_ibfk_1` FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`);
+
+--
 -- Filtros para la tabla `datos_bancarios_med`
 --
 ALTER TABLE `datos_bancarios_med`
@@ -2986,6 +3241,13 @@ ALTER TABLE `medico_clinicas`
   ADD CONSTRAINT `medico_clinicas_ibfk_3` FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`);
 
 --
+-- Filtros para la tabla `medico_documentos`
+--
+ALTER TABLE `medico_documentos`
+  ADD CONSTRAINT `medico_documentos_ibfk_1` FOREIGN KEY (`id_med`) REFERENCES `medicos` (`id_user`),
+  ADD CONSTRAINT `medico_documentos_ibfk_2` FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`);
+
+--
 -- Filtros para la tabla `medico_especialidad`
 --
 ALTER TABLE `medico_especialidad`
@@ -3002,10 +3264,34 @@ ALTER TABLE `medico_horario`
   ADD CONSTRAINT `medico_horario_ibfk_3` FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`);
 
 --
+-- Filtros para la tabla `medico_serv_afil`
+--
+ALTER TABLE `medico_serv_afil`
+  ADD CONSTRAINT `medico_serv_afil_ibfk_1` FOREIGN KEY (`id_med`) REFERENCES `medicos` (`id_user`),
+  ADD CONSTRAINT `medico_serv_afil_ibfk_2` FOREIGN KEY (`id_ser`) REFERENCES `serviciosafiliados` (`id`),
+  ADD CONSTRAINT `medico_serv_afil_ibfk_3` FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`);
+
+--
 -- Filtros para la tabla `municipios`
 --
 ALTER TABLE `municipios`
   ADD CONSTRAINT `municipios_ibfk_1` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id_estado`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `pacientes`
+--
+ALTER TABLE `pacientes`
+  ADD CONSTRAINT `pacientes_ibfk_1` FOREIGN KEY (`id_reg`) REFERENCES `users` (`id_user`),
+  ADD CONSTRAINT `pacientes_ibfk_2` FOREIGN KEY (`id_sex`) REFERENCES `sexo` (`id_sex`),
+  ADD CONSTRAINT `pacientes_ibfk_3` FOREIGN KEY (`id_civ`) REFERENCES `estadocivil` (`id_civ`);
+
+--
+-- Filtros para la tabla `paciente_medico`
+--
+ALTER TABLE `paciente_medico`
+  ADD CONSTRAINT `paciente_medico_ibfk_1` FOREIGN KEY (`id_med`) REFERENCES `medicos` (`id_user`),
+  ADD CONSTRAINT `paciente_medico_ibfk_2` FOREIGN KEY (`id_pac`) REFERENCES `pacientes` (`id_pac`),
+  ADD CONSTRAINT `paciente_medico_ibfk_3` FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`);
 
 --
 -- Filtros para la tabla `pais`
@@ -3018,6 +3304,18 @@ ALTER TABLE `pais`
 --
 ALTER TABLE `parroquias`
   ADD CONSTRAINT `parroquias_ibfk_1` FOREIGN KEY (`id_municipio`) REFERENCES `municipios` (`id_municipio`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `privilegios`
+--
+ALTER TABLE `privilegios`
+  ADD CONSTRAINT `fk_privilegios_estatus` FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`);
+
+--
+-- Filtros para la tabla `serviciosafiliados`
+--
+ALTER TABLE `serviciosafiliados`
+  ADD CONSTRAINT `serviciosafiliados_ibfk_1` FOREIGN KEY (`id_sta`) REFERENCES `estatus` (`id_sta`);
 
 --
 -- Filtros para la tabla `sexo`

@@ -1,20 +1,20 @@
 <?php 
 //----- TOTAL DE MEDICOS ------//
-$a = ("SELECT COUNT(*) as total_med FROM medicos ");
-$ares=$mysqli->query($a);
-$totalMedicos=$ares->fetch_array();
-//----- TOTAL DE PACIENTES ------//
-$b = ("SELECT COUNT(*) as total_pacientes FROM pacientes");
-$bres=$mysqli->query($b);
-$totalPacientes=$bres->fetch_array();
-//----- TOTAL DE SEGUROS ------//
-$c = ("SELECT COUNT(*) as total_seguros FROM aseguradoras");
-$cres=$mysqli->query($c);
-$totalSeguros=$cres->fetch_array();
-//----- TOTAL DE CITAS ------//
-$d = "SELECT COUNT(*) as total_citas FROM citas";
-$dres=$mysqli->query($d);
-$totalCitas=$dres->fetch_array();
+// $a = ("SELECT COUNT(*) as total_med FROM medicos ");
+// $ares=$mysqli->query($a);
+// $totalMedicos=$ares->fetch_array();
+// //----- TOTAL DE PACIENTES ------//
+// $b = ("SELECT COUNT(*) as total_pacientes FROM pacientes");
+// $bres=$mysqli->query($b);
+// $totalPacientes=$bres->fetch_array();
+// //----- TOTAL DE SEGUROS ------//
+// $c = ("SELECT COUNT(*) as total_seguros FROM aseguradoras");
+// $cres=$mysqli->query($c);
+// $totalSeguros=$cres->fetch_array();
+// //----- TOTAL DE CITAS ------//
+// $d = "SELECT COUNT(*) as total_citas FROM citas";
+// $dres=$mysqli->query($d);
+// $totalCitas=$dres->fetch_array();
 ?>
 <div class="row">
 <div class="col-lg-3 mb-4 order-0">
@@ -23,7 +23,7 @@ $totalCitas=$dres->fetch_array();
         <div class="col-12">
             <div class="card-body admin text-center">
                 <h5 class="card-title text-primary ">Directorio Médico</h5>
-                <h2 class="fw-bold"><?php echo $totalMedicos['total_med'];?></h2>
+                <h2 class="fw-bold"><?php //echo $totalMedicos['total_med'];?></h2>
                 <h4 class="icono"><i class="fi fi-rr-stethoscope"></i></h4>
                 
             </div>
@@ -38,7 +38,7 @@ $totalCitas=$dres->fetch_array();
         <div class="col-12">
             <div class="card-body admin text-center">
                 <h5 class="card-title text-primary">Aseguradoras</h5>
-                <h2 class="fw-bold text-center"><?php echo $totalSeguros['total_seguros'];?></h2>
+                <h2 class="fw-bold text-center"><?php //echo $totalSeguros['total_seguros'];?></h2>
                 <h4 class="icono"><i class="fi fi-rs-shield-check"></i></h4>
             </div>
         </div>
@@ -52,7 +52,7 @@ $totalCitas=$dres->fetch_array();
         <div class="col-12">
             <div class="card-body admin text-center">
                 <h5 class="card-title text-primary">PACIENTES</h5>
-                <h2 class="fw-bold text-center"><?php echo $totalPacientes['total_pacientes'];?></h2>
+                <h2 class="fw-bold text-center"><?php //echo $totalPacientes['total_pacientes'];?></h2>
                 <h4 class="icono"><i class="fi fi-ts-users-medical"></i></h4>
             </div>
         </div>
@@ -66,7 +66,7 @@ $totalCitas=$dres->fetch_array();
         <div class="col-12">
             <div class="card-body admin text-center">
                 <h5 class="card-title text-primary">CITAS TOTALES</h5>
-                <h2 class="fw-bold text-center"><?php echo $totalCitas['total_citas'];?></h2>
+                <h2 class="fw-bold text-center"><?php //echo $totalCitas['total_citas'];?></h2>
                 <h4 class="icono"><i class="fi fi-tr-calendar-clock"></i></h4>
             </div>
         </div>
@@ -102,11 +102,11 @@ $totalCitas=$dres->fetch_array();
                 <select name="espe_med" id="espe_med" class="form-select">
                     <option value="" disabled selected>Especialidades</option>
                     <?php 
-                    $a = "SELECT * FROM especialidadmed WHERE idestatus = 1";
-                    $ares=$mysqli->query($a);
-                    while ($arow = mysqli_fetch_array($ares)) {
-                        echo '<option value="'.$arow['idespmed'].'">'.$arow['especialidad'].'</option>';
-                    }
+                    // $a = "SELECT * FROM especialidadmed WHERE idestatus = 1";
+                    // $ares=$mysqli->query($a);
+                    // while ($arow = mysqli_fetch_array($ares)) {
+                    //     echo '<option value="'.$arow['idespmed'].'">'.$arow['especialidad'].'</option>';
+                    // }
                     ?>
                 </select>
             </div>

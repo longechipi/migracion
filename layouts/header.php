@@ -42,7 +42,6 @@
     <!-- Dark Mode  -->
     <link rel="stylesheet" href="../assets/vendor/css/darkmode.css" />
     
-
     <!-- SweetAlert2 --->
     <script src="../libs/sweetalert/sweetalert.js"></script>
 
@@ -79,5 +78,6 @@
 
 <link href="../libs/lightbox2/css/lightbox.css" rel="stylesheet" />
 <script src="../libs/lightbox2/js/lightbox.js"></script>
+
   </head>
   <body>
