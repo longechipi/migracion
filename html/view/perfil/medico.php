@@ -705,6 +705,7 @@ $row_med = $ares->fetch_array();
 				 <table class="table table-hover" id="user3" cellspacing="0" style="width: 100%;">
 					<thead>
 						<tr>
+							<th>Tipo de Documento</th>
 							<th>Documento</th>
 							<th>Accion</th>
 						</tr>
@@ -717,6 +718,7 @@ $row_med = $ares->fetch_array();
 						while($rowdoc = mysqli_fetch_array($row)) { 
 							$extension = pathinfo($rowdoc['nom_docum'], PATHINFO_EXTENSION);?>
 						<tr>
+							<td><?php echo ($rowdoc['tip_docum'] == 'COL_MED') ? 'COLEGIO MEDICO' : $rowdoc['tip_docum']; ?></td>
 						<td>
 							<?php 
 							if ($extension === 'pdf') {
