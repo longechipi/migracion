@@ -2860,7 +2860,8 @@
  }
  
  .form-check-input[type=checkbox] {
-     border-radius: .267em
+     border-radius: .267em;
+     cursor: auto;
  }
  
  .form-check-input[type=radio] {
@@ -2874,7 +2875,8 @@
  .form-check-input:focus {
      border-color: #646e78;
      outline: 0;
-     box-shadow: none
+     box-shadow: none;
+     cursor: auto !important;
  }
  
  .form-check-input:checked {
