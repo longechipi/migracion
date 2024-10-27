@@ -125,11 +125,11 @@ $row=$ares->fetch_assoc();
 <?php include('../layouts/script.php')?>
 <script>
     $(document).ready(function (){
+        //-------- REINICIAR LA CONTRAEÑA DEL USUARIO ------------//
         $('#mail').click(function(e){
             e.preventDefault();
             var id_user = $('#id_user').val();
             var usuario = $('#usuario').val();
-
             Swal.fire({
                 title: "¿Reiniciar la Contraseña?",
                 text: "La contraseña se va a reiniciar y será enviada una temporal al usuario por Correo",
@@ -164,29 +164,9 @@ $row=$ares->fetch_assoc();
                                 }
                             }
                         });
-
-
-
-
-
-                        // Swal.fire({
-                        //     title: "Contraseña Reiniciada",
-                        //     text: "La contraseña temporal se envío al usuario",
-                        //     icon: "success",
-                        //     confirmButtonColor: "#007ebc",
-                        //     confirmButtonText: "Aceptar"
-                        // });
                     }
                 });
-
-
-            
-
-
-            
-            
         });
-
 
         $('#upt_user').submit(function(e){
             e.preventDefault();
@@ -195,25 +175,25 @@ $row=$ares->fetch_assoc();
                 url: '../model/users/edit_user.php',
                 data: $('#upt_user').serialize(),
                 success: function(data){
-                    // if(data == 1){
-                    //     Swal.fire({
-                    //         title: '¡Éxito!',
-                    //         text: 'Usuario actualizado correctamente',
-                    //         icon: 'success',
-                    //         confirmButtonText: 'Aceptar'
-                    //     }).then((result) => {
-                    //         if (result.isConfirmed) {
-                    //             window.location.href = 'usuarios.php';
-                    //         }
-                    //     });
-                    // }else{
-                    //     Swal.fire({
-                    //         title: 'Error',
-                    //         text: 'Error al actualizar usuario',
-                    //         icon: 'error',
-                    //         confirmButtonText: 'Aceptar'
-                    //     });
-                    // }
+                    if(data == 1){
+                        Swal.fire({
+                            title: '¡Éxito!',
+                            text: 'Usuario actualizado correctamente',
+                            icon: 'success',
+                            confirmButtonText: 'Aceptar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = 'usuarios';
+                            }
+                        });
+                    }else{
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Error al actualizar usuario',
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        });
+                    }
                 }
             });
         });
