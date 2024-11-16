@@ -7,6 +7,7 @@ $nom_user = strtoupper($_POST['nom_user']);
 $apel_user = strtoupper($_POST['apel_user']);
 $privi = $_POST['privi'];
 $sta_user = $_POST['sta_user'];
+$id_user = $_POST['id_user'];
 
 function limpiarCorreo($usuario) {
     $usuario = trim($usuario);

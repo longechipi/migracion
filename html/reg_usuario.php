@@ -16,7 +16,7 @@ require('../conf/conex.php');
         <div class="d-flex align-items-end row">
             <div class="col-12">
                 <div class="card-body">
-                    <h5 class="card-title text-primary">Registro de Usuario </h5>
+                    <h5 class="card-title text-primary">Registro de Usuario <?php echo $id_user; ?></h5>
                     <div class="row">
                         <form id="reg_user">
                         <div class="row mt-4">
@@ -24,7 +24,7 @@ require('../conf/conex.php');
                                 <div class="form-group">
                                     <label for="usuario">Usuario:</label>
                                     <input type="mail" class="form-control" name="usuario" id="usuario" style="text-transform:uppercase;" required />
-                                    <small>Colocar Correo Electronico</small>
+                                    <input type="text" class="form-control" name="id_user" id="id_user" value="<?php echo $id_user; ?>" style="text-transform:uppercase;" hidden/>
                                 </div>
                             </div>
 
